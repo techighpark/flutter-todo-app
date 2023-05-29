@@ -2,6 +2,7 @@ import 'package:dev_app_1/constants/custom_color_schemes.g.dart';
 import 'package:dev_app_1/constants/text_theme.dart';
 import 'package:dev_app_1/features/authentication/views/sign_in_form_view.dart';
 import 'package:dev_app_1/router.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,6 +49,7 @@ class MyApp extends ConsumerWidget {
     /// print(Orientation.portrait);
     /// print(Orientation.landscape);
     /// print(Orientation.values);
+
     return MaterialApp.router(
       title: 'First Dev App',
       debugShowCheckedModeBanner: false,
