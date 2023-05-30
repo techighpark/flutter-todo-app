@@ -2,11 +2,10 @@ import 'dart:ui';
 
 import 'package:dev_app_1/constants/gaps.dart';
 import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/todo/widgets/BoxTypeReminderWidget.dart';
+import 'package:dev_app_1/features/todo/views/new_list_form_view.dart';
+import 'package:dev_app_1/features/todo/widgets/ReminderCardWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-enum ReminderType { list, templates }
 
 class ToDoView extends StatefulWidget {
   static String routeName = 'todo';
@@ -20,99 +19,16 @@ class ToDoView extends StatefulWidget {
 
 class _ToDoViewState extends State<ToDoView> {
   final items = List<String>.generate(20, (i) => 'Item ${i + 1}');
-  ReminderType _selectedSegment = ReminderType.list;
   void _onFloatingButtonTap() {}
-  void _closeModalTap() {
-    Navigator.of(context).pop();
-  }
 
-  // void _selectSegment(value) {
-  //   print(value);
-  //   setState(() {});
-  // }
-
-  void _onAddListTap(BuildContext context) {
-    showModalBottomSheet(
+  Future<void> _onAddListTap(BuildContext context) async {
+    final result = await showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       // builder: (context) => SegmentedControlExample()
-      builder: (context) => StatefulBuilder(
-        builder:
-            (BuildContext context, void Function(void Function()) setState) {
-          return DefaultTabController(
-            length: 2,
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.9,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                ),
-                child: Scaffold(
-                  appBar: AppBar(
-                    automaticallyImplyLeading: false,
-                    // centerTitle: true,
-                    titleSpacing: 0,
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CupertinoButton(
-                          onPressed: _closeModalTap,
-                          child: const Text('Cancel'),
-                        ),
-                        const Text('New List'),
-                        CupertinoButton(
-                          onPressed: _closeModalTap,
-                          child: const Text('Done'),
-                        ),
-                      ],
-                    ),
-                    bottom: PreferredSize(
-                      preferredSize: Size(double.infinity, 40.0),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: Sizes.size20,
-                        ),
-                        child: CupertinoSlidingSegmentedControl<ReminderType>(
-                          backgroundColor: CupertinoColors.systemGrey2,
-                          thumbColor:
-                              Theme.of(context).colorScheme.onInverseSurface,
-                          // This represents the currently selected segmented control.
-                          groupValue: _selectedSegment,
-                          // Callback that sets the selected segmented control.
-                          onValueChanged: (ReminderType? value) {
-                            if (value != null) {
-                              setState(() {
-                                _selectedSegment = value;
-                              });
-                            }
-                          },
-                          children: <ReminderType, Widget>{
-                            ReminderType.list: Container(
-                              alignment: Alignment.center,
-                              width: double.maxFinite,
-                              child: Text('Midnight'),
-                            ),
-                            ReminderType.templates: Container(
-                              alignment: Alignment.center,
-                              width: double.maxFinite,
-                              child: Text('Midnight'),
-                            ),
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+      builder: (context) => const NewListFormView(),
     );
+    print(result);
   }
 
   @override
@@ -178,7 +94,7 @@ class _ToDoViewState extends State<ToDoView> {
             ),
           ),
           SliverPadding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
             ),
             sliver: SliverList(
@@ -223,7 +139,7 @@ class _ToDoViewState extends State<ToDoView> {
                       children: [
                         Text('$index'),
                         Gaps.h4,
-                        Icon(
+                        const Icon(
                           CupertinoIcons.chevron_forward,
                           size: Sizes.size20,
                         )
