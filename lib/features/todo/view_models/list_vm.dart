@@ -6,18 +6,30 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ListViewModel extends Notifier<List<ListModel>> {
   final ListRepository _repository;
-  late final List<ListModel> _list;
+  late final List<ListModel> _list = [];
+
   ListViewModel(this._repository);
+
+  List<ListModel> getList() {
+    List<String> encodedList = _repository.getList();
+    for (final item in encodedList) {
+      final decodedItem = json.decode(item);
+      _list.add(decodedItem);
+    }
+    return _list;
+  }
 
   @override
   List<ListModel> build() {
-    List<String> encodedList = _repository.getList();
-    List<ListModel> list = [];
-    for (final item in encodedList) {
-      final decodedItem = json.decode(item);
-      list.add(decodedItem);
-    }
-    return list;
+    return getList();
+  }
+
+  void addList(ListModel value) {
+    final List<String> encodedList = _repository.getList();
+    final encodedValue = json.encode(value);
+    encodedList.add(encodedValue);
+    _repository.setList(encodedList);
+    state = getList();
   }
 }
 

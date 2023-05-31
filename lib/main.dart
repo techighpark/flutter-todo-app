@@ -35,11 +35,17 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.dark,
   );
-  final preferences = SharedPreferences.getInstance();
-  // final repository = ListRepository(preferences);
+
+  final preferences = await SharedPreferences.getInstance();
+  final repository = ListRepository(preferences);
   runApp(
     ProviderScope(
-      child: MyApp(),
+      overrides: [
+        listProvider.overrideWith(
+          () => ListViewModel(repository),
+        ),
+      ],
+      child: const MyApp(),
     ),
   );
 }
