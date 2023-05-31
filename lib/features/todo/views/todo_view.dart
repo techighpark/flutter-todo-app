@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:dev_app_1/constants/gaps.dart';
 import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/todo/views/new_list_form_view.dart';
+import 'package:dev_app_1/features/todo/view_models/list_vm.dart';
+import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
 import 'package:dev_app_1/features/todo/widgets/ReminderCardWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

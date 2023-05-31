@@ -1,119 +1,230 @@
-import 'dart:ui';
-
 import 'package:dev_app_1/constants/gaps.dart';
 import 'package:dev_app_1/constants/sizes.dart';
+import 'package:dev_app_1/constants/tech_colors.dart';
+import 'package:dev_app_1/constants/tech_icons.dart';
 import 'package:dev_app_1/features/todo/views/item_container_widget.dart';
-import 'package:dev_app_1/features/todo/views/new_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum ReminderType { list, templates }
-
-class NewListFormView extends StatefulWidget {
-  const NewListFormView({Key? key}) : super(key: key);
+class NewListView extends StatefulWidget {
+  const NewListView({Key? key}) : super(key: key);
 
   @override
-  State<NewListFormView> createState() => _NewListFormViewState();
+  State<NewListView> createState() => _NewListViewState();
 }
 
-class _NewListFormViewState extends State<NewListFormView> {
-  ReminderType _selectedSegment = ReminderType.list;
+class _NewListViewState extends State<NewListView> {
+  final ScrollController _scrollController = ScrollController();
+  late TextEditingController _textController;
 
-  void _closeModalTap() {
-    Navigator.of(context).pop("This string will be passed back to the parent");
+  Map<String, String> formData = {};
+
+  void _onSubmitted(value) {
+    print('_onSubmitted');
+    if (value != null) {
+      formData['listName'] = value;
+    }
+  }
+
+  // void _onChanged(value) {
+  //   print('_onChanged');
+  //   print(value);
+  // }
+
+  // void _onTapOutside(PointerEvent event) {
+  //   print('_onTapOutside');
+  //   print(event);
+  // }
+
+  // void _onEditingComplete() {
+  //   print('_onEditingComplete');
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.9,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
-        ),
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            // centerTitle: true,
-            titleSpacing: 0,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CupertinoButton(
-                  onPressed: _closeModalTap,
-                  child: const Text('Cancel'),
-                ),
-                const Text('New List'),
-                CupertinoButton(
-                  onPressed: _closeModalTap,
-                  child: const Text('Done'),
-                ),
-              ],
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size(double.infinity, 60.0),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: Sizes.size20,
-                  right: Sizes.size20,
-                  // top: Sizes.size10,
-                  bottom: Sizes.size20,
-                ),
-                child: CupertinoSlidingSegmentedControl<ReminderType>(
-                  backgroundColor: colorScheme.onInverseSurface,
-                  thumbColor: CupertinoColors.systemGrey2,
-                  // This represents the currently selected segmented control.
-                  groupValue: _selectedSegment,
-                  // Callback that sets the selected segmented control.
-                  onValueChanged: (ReminderType? value) {
-                    if (value != null) {
-                      setState(() {
-                        _selectedSegment = value;
-                      });
-                    }
-                  },
-                  children: <ReminderType, Widget>{
-                    ReminderType.list: Container(
-                      alignment: Alignment.center,
-                      width: double.maxFinite,
-                      child: const Text('New List'),
+
+    return Scrollbar(
+      controller: _scrollController,
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Gaps.v20,
+            ItemContainerWidget(
+              horizontalPadding: 0,
+              verticalPadding: Sizes.size16,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(
+                      Sizes.size16,
                     ),
-                    ReminderType.templates: Container(
-                      alignment: Alignment.center,
-                      width: double.maxFinite,
-                      child: const Text('Templates'),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
                     ),
-                  },
-                ),
+                    child: const Icon(
+                      CupertinoIcons.list_bullet,
+                      size: Sizes.size56,
+                    ),
+                  ),
+                  Gaps.v20,
+                  FractionallySizedBox(
+                    widthFactor: 0.9,
+                    child: CupertinoTextField(
+                      controller: _textController,
+                      onSubmitted: _onSubmitted,
+                      // onChanged: _onChanged,
+                      // onTapOutside: _onTapOutside,
+                      // onEditingComplete: _onEditingComplete,
+                      placeholder: 'List Name',
+                      placeholderStyle: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        color: colorScheme.outline,
+                      ),
+                      textAlign: TextAlign.center,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: Sizes.size20,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceVariant,
+                        borderRadius: BorderRadius.circular(
+                          Sizes.size10,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          body: _selectedSegment == ReminderType.list
-              ? NewListView()
-              : Center(
-                  child: RichText(
-                    text: const TextSpan(
-                      text: 'No Templates',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: Sizes.size16,
+            Gaps.v20,
+            ItemContainerWidget(
+              horizontalPadding: Sizes.size14,
+              verticalPadding: Sizes.size4,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(Sizes.size6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        Sizes.size10,
                       ),
+                      color: Colors.deepOrange,
+                    ),
+                    child: const Icon(
+                      CupertinoIcons.arrow_3_trianglepath,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Gaps.h14,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextSpan(
-                          text: ' Upload longer videos',
+                        const Text(
+                          'Make into Smart List',
+                        ),
+                        Text(
+                          'Organize using tags and other filters',
                           style: TextStyle(
-                            fontWeight: FontWeight.normal,
+                            color: colorScheme.outline,
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
+                  Icon(
+                    CupertinoIcons.chevron_forward,
+                    size: Sizes.size16,
+                    color: colorScheme.outline,
+                  ),
+                ],
+              ),
+            ),
+            Gaps.v20,
+            ItemContainerWidget(
+              verticalPadding: Sizes.size20,
+              horizontalPadding: Sizes.size20,
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 6,
+                mainAxisSpacing: Sizes.size16,
+                crossAxisSpacing: Sizes.size16,
+                padding: EdgeInsets.zero,
+                children: [
+                  for (final color in TechColors.allColors.values)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                ],
+              ),
+            ),
+            Gaps.v20,
+            ItemContainerWidget(
+              verticalPadding: Sizes.size20,
+              horizontalPadding: Sizes.size20,
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 6,
+                mainAxisSpacing: Sizes.size16,
+                crossAxisSpacing: Sizes.size16,
+                padding: EdgeInsets.zero,
+                children: [
+                  for (final color in Colors.accents)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                ],
+              ),
+            ),
+            Gaps.v20,
+            ItemContainerWidget(
+              verticalPadding: Sizes.size20,
+              horizontalPadding: Sizes.size20,
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                crossAxisCount: 6,
+                mainAxisSpacing: Sizes.size16,
+                crossAxisSpacing: Sizes.size16,
+                padding: EdgeInsets.zero,
+                children: [
+                  for (final icon in TechIcons.allIcons.values)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: colorScheme.outlineVariant,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        icon,
+                      ),
+                    )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

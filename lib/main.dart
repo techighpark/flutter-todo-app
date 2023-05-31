@@ -1,11 +1,14 @@
 import 'package:dev_app_1/constants/custom_color_schemes.g.dart';
 import 'package:dev_app_1/constants/text_theme.dart';
 import 'package:dev_app_1/features/authentication/views/sign_in_form_view.dart';
+import 'package:dev_app_1/features/todo/repos/list_repo.dart';
+import 'package:dev_app_1/features/todo/view_models/list_vm.dart';
 import 'package:dev_app_1/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   /// glue that binds the framework to the Flutter engine.
@@ -32,9 +35,10 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.dark,
   );
-
+  final preferences = SharedPreferences.getInstance();
+  // final repository = ListRepository(preferences);
   runApp(
-    const ProviderScope(
+    ProviderScope(
       child: MyApp(),
     ),
   );
