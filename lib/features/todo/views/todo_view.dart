@@ -7,19 +7,19 @@ import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
 import 'package:dev_app_1/features/todo/widgets/ReminderCardWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ToDoView extends StatefulWidget {
+class ToDoView extends ConsumerStatefulWidget {
   static String routeName = 'todo';
   static String routeUrl = '/todo';
 
   const ToDoView({Key? key}) : super(key: key);
 
   @override
-  State<ToDoView> createState() => _ToDoViewState();
+  ConsumerState<ToDoView> createState() => _ToDoViewState();
 }
 
-class _ToDoViewState extends State<ToDoView> {
-  final items = List<String>.generate(20, (i) => 'Item ${i + 1}');
+class _ToDoViewState extends ConsumerState<ToDoView> {
   void _onFloatingButtonTap() {}
 
   Future<void> _onAddListTap(BuildContext context) async {
@@ -27,13 +27,13 @@ class _ToDoViewState extends State<ToDoView> {
       isScrollControlled: true,
       context: context,
       // builder: (context) => SegmentedControlExample()
-      builder: (context) => const NewListFormView(),
+      builder: (context) => const NewListModalView(),
     );
-    print(result);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(ref.read(listProvider.notifier).getList());
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -98,9 +98,11 @@ class _ToDoViewState extends State<ToDoView> {
             padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
             ),
-            sliver: SliverList(
+            sliver: SliverFixedExtentList(
+              itemExtent: 60,
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
+                  final items = ref.read(listProvider.notifier).getList();
                   return ListTile(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
@@ -134,7 +136,7 @@ class _ToDoViewState extends State<ToDoView> {
                           color: Colors.white,
                           size: Sizes.size24,
                         )),
-                    title: Text(items[index]),
+                    title: Text('1'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -148,7 +150,7 @@ class _ToDoViewState extends State<ToDoView> {
                     ),
                   );
                 },
-                childCount: items.length,
+                childCount: ref.read(listProvider.notifier).getList().length,
               ),
             ),
           ),

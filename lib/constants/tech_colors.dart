@@ -17,11 +17,11 @@ class TechColors {
   static const allColors = {
     'deepOrange': deepOrange,
     'orange': orange,
+    'indigo': indigo,
     'orangeAccent': orangeAccent,
     'redAccent': redAccent,
     'pink': pink,
     'lightBlueAccent': lightBlueAccent,
-    'indigo': indigo,
     'deepPurple': deepPurple,
     'brown': brown,
     'grey': grey,

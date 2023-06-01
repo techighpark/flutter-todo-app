@@ -3,42 +3,31 @@ import 'package:dev_app_1/constants/sizes.dart';
 import 'package:dev_app_1/constants/tech_colors.dart';
 import 'package:dev_app_1/constants/tech_icons.dart';
 import 'package:dev_app_1/features/todo/views/item_container_widget.dart';
+import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class NewListView extends StatefulWidget {
-  const NewListView({Key? key}) : super(key: key);
+class NewListFormView extends StatefulWidget {
+  final Map<String, dynamic> formData;
+  final Function onTitleChanged;
+  final Function onColorTap;
+  final Function onIconTap;
+
+  const NewListFormView(
+      {Key? key,
+      required this.formData,
+      required this.onTitleChanged,
+      required this.onColorTap,
+      required this.onIconTap})
+      : super(key: key);
 
   @override
-  State<NewListView> createState() => _NewListViewState();
+  State<NewListFormView> createState() => _NewListFormViewState();
 }
 
-class _NewListViewState extends State<NewListView> {
+class _NewListFormViewState extends State<NewListFormView> {
   final ScrollController _scrollController = ScrollController();
   late TextEditingController _textController;
-
-  Map<String, String> formData = {};
-
-  void _onSubmitted(value) {
-    print('_onSubmitted');
-    if (value != null) {
-      formData['listName'] = value;
-    }
-  }
-
-  // void _onChanged(value) {
-  //   print('_onChanged');
-  //   print(value);
-  // }
-
-  // void _onTapOutside(PointerEvent event) {
-  //   print('_onTapOutside');
-  //   print(event);
-  // }
-
-  // void _onEditingComplete() {
-  //   print('_onEditingComplete');
-  // }
 
   @override
   void initState() {
@@ -73,12 +62,14 @@ class _NewListViewState extends State<NewListView> {
                     padding: const EdgeInsets.all(
                       Sizes.size16,
                     ),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.blue,
+                      color: TechColors.allColors[
+                          widget.formData[formKeys[ListModelType.color]!]],
                     ),
-                    child: const Icon(
-                      CupertinoIcons.list_bullet,
+                    child: Icon(
+                      TechIcons.allIcons[
+                          widget.formData[formKeys[ListModelType.icon]!]],
                       size: Sizes.size56,
                     ),
                   ),
@@ -87,10 +78,11 @@ class _NewListViewState extends State<NewListView> {
                     widthFactor: 0.9,
                     child: CupertinoTextField(
                       controller: _textController,
-                      onSubmitted: _onSubmitted,
+                      onChanged: (value) => widget.onTitleChanged(value),
                       // onChanged: _onChanged,
                       // onTapOutside: _onTapOutside,
                       // onEditingComplete: _onEditingComplete,
+                      textInputAction: TextInputAction.done,
                       placeholder: 'List Name',
                       placeholderStyle: TextStyle(
                         fontWeight: FontWeight.w800,
@@ -167,17 +159,45 @@ class _NewListViewState extends State<NewListView> {
                 crossAxisSpacing: Sizes.size16,
                 padding: EdgeInsets.zero,
                 children: [
-                  for (final color in TechColors.allColors.values)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
+                  for (final color in TechColors.allColors.keys)
+                    GestureDetector(
+                      onTap: () => widget.onColorTap(color),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: TechColors.allColors[color],
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     )
                 ],
               ),
             ),
             Gaps.v20,
+            // ItemContainerWidget(
+            //   verticalPadding: Sizes.size20,
+            //   horizontalPadding: Sizes.size20,
+            //   child: GridView.count(
+            //     physics: const NeverScrollableScrollPhysics(),
+            //     shrinkWrap: true,
+            //     crossAxisCount: 6,
+            //     mainAxisSpacing: Sizes.size16,
+            //     crossAxisSpacing: Sizes.size16,
+            //     padding: EdgeInsets.zero,
+            //     children: [
+            //       for (final color in Colors.accents)
+            //         GestureDetector(
+            //           onTap: () => _onColorTap(color),
+            //           child: Container(
+            //             decoration: BoxDecoration(
+            //               color: color,
+            //               shape: BoxShape.circle,
+            //             ),
+            //           ),
+            //         )
+            //     ],
+            //   ),
+            // ),
+            // Gaps.v20,
             ItemContainerWidget(
               verticalPadding: Sizes.size20,
               horizontalPadding: Sizes.size20,
@@ -189,36 +209,17 @@ class _NewListViewState extends State<NewListView> {
                 crossAxisSpacing: Sizes.size16,
                 padding: EdgeInsets.zero,
                 children: [
-                  for (final color in Colors.accents)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
-                      ),
-                    )
-                ],
-              ),
-            ),
-            Gaps.v20,
-            ItemContainerWidget(
-              verticalPadding: Sizes.size20,
-              horizontalPadding: Sizes.size20,
-              child: GridView.count(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                crossAxisCount: 6,
-                mainAxisSpacing: Sizes.size16,
-                crossAxisSpacing: Sizes.size16,
-                padding: EdgeInsets.zero,
-                children: [
-                  for (final icon in TechIcons.allIcons.values)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: colorScheme.outlineVariant,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        icon,
+                  for (final icon in TechIcons.allIcons.keys)
+                    GestureDetector(
+                      onTap: () => widget.onIconTap(icon),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colorScheme.outlineVariant,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          TechIcons.allIcons[icon],
+                        ),
                       ),
                     )
                 ],

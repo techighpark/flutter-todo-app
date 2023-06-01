@@ -1,24 +1,79 @@
 import 'dart:ui';
 
 import 'package:dev_app_1/constants/sizes.dart';
+import 'package:dev_app_1/constants/tech_colors.dart';
+import 'package:dev_app_1/constants/tech_icons.dart';
+import 'package:dev_app_1/features/todo/models/list_model.dart';
+import 'package:dev_app_1/features/todo/view_models/list_vm.dart';
 import 'package:dev_app_1/features/todo/views/new_list_form_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ReminderType { list, templates }
 
-class NewListFormView extends StatefulWidget {
-  const NewListFormView({Key? key}) : super(key: key);
+class NewListModalView extends ConsumerStatefulWidget {
+  const NewListModalView({Key? key}) : super(key: key);
 
   @override
-  State<NewListFormView> createState() => _NewListFormViewState();
+  ConsumerState<NewListModalView> createState() => _NewListModalViewState();
 }
 
-class _NewListFormViewState extends State<NewListFormView> {
-  ReminderType _selectedSegment = ReminderType.list;
+enum ListModelType { title, icon, color }
 
-  void _closeModalTap() {
-    Navigator.of(context).pop("This string will be passed back to the asf");
+const Map<ListModelType, String> formKeys = <ListModelType, String>{
+  ListModelType.title: 'title',
+  ListModelType.icon: 'icon',
+  ListModelType.color: 'color',
+};
+
+class _NewListModalViewState extends ConsumerState<NewListModalView> {
+  ReminderType _selectedSegment = ReminderType.list;
+  Map<String, dynamic> formData = {
+    formKeys[ListModelType.title]!: null,
+    formKeys[ListModelType.color]!: TechColors.allColors.keys.first,
+    formKeys[ListModelType.icon]!: TechIcons.allIcons.keys.first,
+  };
+
+  void _onTitleChanged(value) {
+    if (value != null) {
+      formData[formKeys[ListModelType.title]!] = value;
+    }
+    setState(() {});
+  }
+
+  void _onColorTap(value) {
+    if (value != null) {
+      formData[formKeys[ListModelType.color]!] = value;
+    }
+    setState(() {});
+  }
+
+  void _onIconTap(value) {
+    if (value != null) {
+      formData[formKeys[ListModelType.icon]!] = value;
+    }
+    setState(() {});
+  }
+
+  void _onCancelModalTap() {
+    Navigator.of(context).pop();
+  }
+
+  void _onCloseModalTap() {
+    ListModel listModel = ListModel(
+      title: formData[formKeys[ListModelType.title]],
+      icon: formData[formKeys[ListModelType.icon]],
+      color: formData[formKeys[ListModelType.color]],
+    );
+    print(formData);
+    ref.read(listProvider.notifier).addList(listModel);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {});
   }
 
   @override
@@ -43,12 +98,14 @@ class _NewListFormViewState extends State<NewListFormView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CupertinoButton(
-                  onPressed: _closeModalTap,
+                  onPressed: _onCancelModalTap,
                   child: const Text('Cancel'),
                 ),
                 const Text('New List'),
                 CupertinoButton(
-                  onPressed: _closeModalTap,
+                  onPressed: formData[formKeys[ListModelType.title]] != null
+                      ? _onCloseModalTap
+                      : null,
                   child: const Text('Done'),
                 ),
               ],
@@ -92,7 +149,12 @@ class _NewListFormViewState extends State<NewListFormView> {
             ),
           ),
           body: _selectedSegment == ReminderType.list
-              ? NewListView()
+              ? NewListFormView(
+                  formData: formData,
+                  onTitleChanged: _onTitleChanged,
+                  onColorTap: (value) => _onColorTap(value),
+                  onIconTap: (value) => _onIconTap(value),
+                )
               : Center(
                   child: RichText(
                     text: const TextSpan(

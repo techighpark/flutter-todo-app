@@ -14,7 +14,7 @@ class ListViewModel extends Notifier<List<ListModel>> {
     List<String> encodedList = _repository.getList();
     for (final item in encodedList) {
       final decodedItem = json.decode(item);
-      _list.add(decodedItem);
+      _list.add(ListModel.fromJson(json: decodedItem));
     }
     return _list;
   }
@@ -26,8 +26,9 @@ class ListViewModel extends Notifier<List<ListModel>> {
 
   void addList(ListModel value) {
     final List<String> encodedList = _repository.getList();
-    final encodedValue = json.encode(value);
-    encodedList.add(encodedValue);
+    // final toStringValue = value.toString();
+    final toJsonValue = json.encode(value.toJson());
+    encodedList.add(toJsonValue);
     _repository.setList(encodedList);
     state = getList();
   }
