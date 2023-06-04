@@ -1,13 +1,12 @@
 import 'package:dev_app_1/constants/gaps.dart';
 import 'package:dev_app_1/constants/sizes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ItemContainerWidget extends StatelessWidget {
+class ListItemContainerWidget extends StatelessWidget {
   final Widget child;
   final double verticalPadding;
   final double horizontalPadding;
-  const ItemContainerWidget(
+  const ListItemContainerWidget(
       {Key? key,
       required this.child,
       required this.verticalPadding,

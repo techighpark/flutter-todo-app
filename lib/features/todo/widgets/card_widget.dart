@@ -3,18 +3,17 @@ import 'package:dev_app_1/constants/sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BoxTypeReminderWidget extends StatefulWidget {
+class CardWidget extends StatefulWidget {
   final String title;
   final IconData icon;
-  const BoxTypeReminderWidget(
-      {Key? key, required this.title, required this.icon})
+  const CardWidget({Key? key, required this.title, required this.icon})
       : super(key: key);
 
   @override
-  State<BoxTypeReminderWidget> createState() => _BoxTypeReminderWidgetState();
+  State<CardWidget> createState() => _CardWidgetState();
 }
 
-class _BoxTypeReminderWidgetState extends State<BoxTypeReminderWidget> {
+class _CardWidgetState extends State<CardWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,3 +1,4 @@
+import 'package:dev_app_1/features/todo/constants/list_model_const.dart';
 import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,15 +15,15 @@ class ListModel {
 
   ListModel.fromJson({
     required Map<String, dynamic> json,
-  })  : title = json['title'],
-        color = json['color'],
-        icon = json['icon'];
+  })  : title = json[ListConstant.listFormKeys[ListType.title]!],
+        color = json[ListConstant.listFormKeys[ListType.color]!],
+        icon = json[ListConstant.listFormKeys[ListType.icon]!];
 
   Map<String, dynamic> toJson() {
     return {
-      formKeys[ListModelType.title]!: title,
-      formKeys[ListModelType.color]!: color,
-      formKeys[ListModelType.icon]!: icon,
+      ListConstant.listFormKeys[ListType.title]!: title,
+      ListConstant.listFormKeys[ListType.color]!: color,
+      ListConstant.listFormKeys[ListType.icon]!: icon,
     };
   }
 }

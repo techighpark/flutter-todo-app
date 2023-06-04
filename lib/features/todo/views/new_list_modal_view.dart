@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dev_app_1/constants/sizes.dart';
 import 'package:dev_app_1/constants/tech_colors.dart';
 import 'package:dev_app_1/constants/tech_icons.dart';
+import 'package:dev_app_1/features/todo/constants/list_model_const.dart';
 import 'package:dev_app_1/features/todo/models/list_model.dart';
 import 'package:dev_app_1/features/todo/view_models/list_vm.dart';
 import 'package:dev_app_1/features/todo/views/new_list_form_view.dart';
@@ -19,39 +20,31 @@ class NewListModalView extends ConsumerStatefulWidget {
   ConsumerState<NewListModalView> createState() => _NewListModalViewState();
 }
 
-enum ListModelType { title, icon, color }
-
-const Map<ListModelType, String> formKeys = <ListModelType, String>{
-  ListModelType.title: 'title',
-  ListModelType.icon: 'icon',
-  ListModelType.color: 'color',
-};
-
 class _NewListModalViewState extends ConsumerState<NewListModalView> {
   ReminderType _selectedSegment = ReminderType.list;
   Map<String, dynamic> formData = {
-    formKeys[ListModelType.title]!: null,
-    formKeys[ListModelType.color]!: TechColors.allColors.keys.first,
-    formKeys[ListModelType.icon]!: TechIcons.allIcons.keys.first,
+    ListConstant.listFormKeys[ListType.title]!: null,
+    ListConstant.listFormKeys[ListType.color]!: TechColors.allColors.keys.first,
+    ListConstant.listFormKeys[ListType.icon]!: TechIcons.allIcons.keys.first,
   };
 
   void _onTitleChanged(value) {
     if (value != null) {
-      formData[formKeys[ListModelType.title]!] = value;
+      formData[ListConstant.listFormKeys[ListType.title]!] = value;
     }
     setState(() {});
   }
 
   void _onColorTap(value) {
     if (value != null) {
-      formData[formKeys[ListModelType.color]!] = value;
+      formData[ListConstant.listFormKeys[ListType.color]!] = value;
     }
     setState(() {});
   }
 
   void _onIconTap(value) {
     if (value != null) {
-      formData[formKeys[ListModelType.icon]!] = value;
+      formData[ListConstant.listFormKeys[ListType.icon]!] = value;
     }
     setState(() {});
   }
@@ -60,14 +53,14 @@ class _NewListModalViewState extends ConsumerState<NewListModalView> {
     Navigator.of(context).pop();
   }
 
-  void _onCloseModalTap() {
+  void _onDoneTap() {
     ListModel listModel = ListModel(
-      title: formData[formKeys[ListModelType.title]],
-      icon: formData[formKeys[ListModelType.icon]],
-      color: formData[formKeys[ListModelType.color]],
+      title: formData[ListConstant.listFormKeys[ListType.title]],
+      icon: formData[ListConstant.listFormKeys[ListType.icon]],
+      color: formData[ListConstant.listFormKeys[ListType.color]],
     );
-    print(formData);
     ref.read(listProvider.notifier).addList(listModel);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -103,9 +96,11 @@ class _NewListModalViewState extends ConsumerState<NewListModalView> {
                 ),
                 const Text('New List'),
                 CupertinoButton(
-                  onPressed: formData[formKeys[ListModelType.title]] != null
-                      ? _onCloseModalTap
-                      : null,
+                  onPressed:
+                      formData[ListConstant.listFormKeys[ListType.title]] !=
+                              null
+                          ? _onDoneTap
+                          : null,
                   child: const Text('Done'),
                 ),
               ],

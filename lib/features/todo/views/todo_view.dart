@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:dev_app_1/constants/gaps.dart';
 import 'package:dev_app_1/constants/sizes.dart';
 import 'package:dev_app_1/features/todo/view_models/list_vm.dart';
+import 'package:dev_app_1/features/todo/views/list_items_view.dart';
 import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
-import 'package:dev_app_1/features/todo/widgets/ReminderCardWidget.dart';
+import 'package:dev_app_1/features/todo/widgets/card_widget.dart';
+import 'package:dev_app_1/features/todo/widgets/list_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,10 +22,10 @@ class ToDoView extends ConsumerStatefulWidget {
 }
 
 class _ToDoViewState extends ConsumerState<ToDoView> {
+  // final items = List<String>.generate(20, (index) => 'Item ${index + 1}');
   void _onFloatingButtonTap() {}
-
   Future<void> _onAddListTap(BuildContext context) async {
-    final result = await showModalBottomSheet(
+    await showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       // builder: (context) => SegmentedControlExample()
@@ -31,9 +33,16 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
     );
   }
 
+  void _onListTap(int index) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListItemsView(index),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(ref.read(listProvider.notifier).getList());
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -63,7 +72,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
             sliver: SliverGrid(
               delegate: SliverChildBuilderDelegate(
                 childCount: 5,
-                (context, index) => const BoxTypeReminderWidget(
+                (context, index) => const CardWidget(
                   title: '123',
                   icon: CupertinoIcons.cube,
                 ),
@@ -102,55 +111,17 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
               itemExtent: 60,
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  final items = ref.read(listProvider.notifier).getList();
-                  return ListTile(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(index == 0 ? 16 : 0),
-                        topRight: Radius.circular(index == 0 ? 16 : 0),
-                        bottomLeft:
-                            Radius.circular(index == items.length - 1 ? 16 : 0),
-                        bottomRight:
-                            Radius.circular(index == items.length - 1 ? 16 : 0),
-                      ),
-                    ),
-                    contentPadding: const EdgeInsets.only(
-                      left: Sizes.size14,
-                      right: Sizes.size10,
-                      top: Sizes.size2,
-                      bottom: Sizes.size2,
-                    ),
-                    // visualDensity: VisualDensity.compact,
-                    tileColor: Theme.of(context).colorScheme.onInverseSurface,
-                    minLeadingWidth: 30,
-                    leading: Container(
-                        padding: const EdgeInsets.all(
-                          Sizes.size6,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Colors.deepOrange,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          CupertinoIcons.list_bullet,
-                          color: Colors.white,
-                          size: Sizes.size24,
-                        )),
-                    title: Text('1'),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text('$index'),
-                        Gaps.h4,
-                        const Icon(
-                          CupertinoIcons.chevron_forward,
-                          size: Sizes.size20,
-                        )
-                      ],
+                  final items = ref.watch(listProvider);
+                  return GestureDetector(
+                    onTap: () => _onListTap(index),
+                    child: ListItemWidget(
+                      index: index,
+                      bottomBorder: index == items.length - 1,
+                      item: items.elementAt(index),
                     ),
                   );
                 },
-                childCount: ref.read(listProvider.notifier).getList().length,
+                childCount: ref.watch(listProvider).length,
               ),
             ),
           ),

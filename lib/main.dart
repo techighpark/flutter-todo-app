@@ -37,6 +37,8 @@ void main() async {
   );
 
   final preferences = await SharedPreferences.getInstance();
+
+  // await preferences.clear();
   final repository = ListRepository(preferences);
   runApp(
     ProviderScope(
@@ -56,6 +58,16 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('main.dart build');
+
+    /// print(ref.read(listProvider));
+    // prints ListViewModel
+    // flutter: [Instance of 'ListModel', Instance of 'ListModel', Instance of 'ListModel']
+
+    /// print(ref.read(listProvider.notifier));
+    // prints Notifier<List<ListModel>>
+    // Instance of 'ListViewModel'
+
     /// print(Orientation.portrait);
     /// print(Orientation.landscape);
     /// print(Orientation.values);

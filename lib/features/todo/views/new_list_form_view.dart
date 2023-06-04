@@ -2,8 +2,8 @@ import 'package:dev_app_1/constants/gaps.dart';
 import 'package:dev_app_1/constants/sizes.dart';
 import 'package:dev_app_1/constants/tech_colors.dart';
 import 'package:dev_app_1/constants/tech_icons.dart';
-import 'package:dev_app_1/features/todo/views/item_container_widget.dart';
-import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
+import 'package:dev_app_1/features/todo/constants/list_model_const.dart';
+import 'package:dev_app_1/features/todo/widgets/list_item_container_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +53,7 @@ class _NewListFormViewState extends State<NewListFormView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Gaps.v20,
-            ItemContainerWidget(
+            ListItemContainerWidget(
               horizontalPadding: 0,
               verticalPadding: Sizes.size16,
               child: Column(
@@ -64,12 +64,12 @@ class _NewListFormViewState extends State<NewListFormView> {
                     ),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: TechColors.allColors[
-                          widget.formData[formKeys[ListModelType.color]!]],
+                      color: TechColors.allColors[widget.formData[
+                          ListConstant.listFormKeys[ListType.color]!]],
                     ),
                     child: Icon(
-                      TechIcons.allIcons[
-                          widget.formData[formKeys[ListModelType.icon]!]],
+                      TechIcons.allIcons[widget.formData[
+                          ListConstant.listFormKeys[ListType.icon]!]],
                       size: Sizes.size56,
                     ),
                   ),
@@ -104,7 +104,7 @@ class _NewListFormViewState extends State<NewListFormView> {
               ),
             ),
             Gaps.v20,
-            ItemContainerWidget(
+            ListItemContainerWidget(
               horizontalPadding: Sizes.size14,
               verticalPadding: Sizes.size4,
               child: Row(
@@ -148,7 +148,7 @@ class _NewListFormViewState extends State<NewListFormView> {
               ),
             ),
             Gaps.v20,
-            ItemContainerWidget(
+            ListItemContainerWidget(
               verticalPadding: Sizes.size20,
               horizontalPadding: Sizes.size20,
               child: GridView.count(
@@ -198,7 +198,7 @@ class _NewListFormViewState extends State<NewListFormView> {
             //   ),
             // ),
             // Gaps.v20,
-            ItemContainerWidget(
+            ListItemContainerWidget(
               verticalPadding: Sizes.size20,
               horizontalPadding: Sizes.size20,
               child: GridView.count(
