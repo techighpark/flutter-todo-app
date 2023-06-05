@@ -131,6 +131,9 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: Sizes.size16,
+            ),
             height: 110,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.background.withOpacity(0.5),
@@ -139,6 +142,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CupertinoButton(
+                  padding: EdgeInsets.zero,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
@@ -150,6 +154,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
                   onPressed: () {},
                 ),
                 CupertinoButton(
+                  padding: EdgeInsets.zero,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
