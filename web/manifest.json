@@ -1,11 +1,11 @@
 {
-    "name": "dev_app_1",
-    "short_name": "dev_app_1",
+    "name": "techigh_todo",
+    "short_name": "techigh_todo",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "dev_app_1",
+    "description": "techigh_todo",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -1,10 +1,10 @@
-import 'package:dev_app_1/constants/gaps.dart';
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/onboarding/views/tech_animated_cross_fade_view.dart';
-import 'package:dev_app_1/features/onboarding/views/tech_animated_switcher_view.dart';
-import 'package:dev_app_1/features/onboarding/views/tech_single_child_scroll_view.dart';
-import 'package:dev_app_1/features/onboarding/views/tech_tab_bar_view.dart';
-import 'package:dev_app_1/features/widget_navigation/widgets/buttons/stack_button.dart';
+import 'package:techigh_todo/constants/gaps.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/features/onboarding/views/tech_animated_cross_fade_view.dart';
+import 'package:techigh_todo/features/onboarding/views/tech_animated_switcher_view.dart';
+import 'package:techigh_todo/features/onboarding/views/tech_single_child_scroll_view.dart';
+import 'package:techigh_todo/features/onboarding/views/tech_tab_bar_view.dart';
+import 'package:techigh_todo/features/widget_navigation/widgets/buttons/stack_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

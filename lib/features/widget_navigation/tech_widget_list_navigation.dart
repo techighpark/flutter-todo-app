@@ -1,14 +1,14 @@
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/buttons/widgets/tech_cupertino_button.dart';
-import 'package:dev_app_1/features/main_navigation/views/tech_navigation_view.dart';
-import 'package:dev_app_1/features/main_navigation/views/tech_material_navigation_view.dart';
-import 'package:dev_app_1/features/main_navigation/views/tech_cupertino_tab_bar_view.dart';
-import 'package:dev_app_1/features/text_field/text_field_view.dart';
-import 'package:dev_app_1/features/widget_navigation/views/tech_indicator_type_view.dart';
-import 'package:dev_app_1/features/widget_navigation/views/tech_list_type_view.dart';
-import 'package:dev_app_1/features/widget_navigation/views/tech_swipe_type_list_view.dart';
-import 'package:dev_app_1/features/widget_navigation/views/tech_button_type_list_view.dart';
-import 'package:dev_app_1/features/widget_navigation/widgets/bottom_sheets/modal_bottom_sheet.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/features/buttons/widgets/tech_cupertino_button.dart';
+import 'package:techigh_todo/features/main_navigation/views/tech_navigation_view.dart';
+import 'package:techigh_todo/features/main_navigation/views/tech_material_navigation_view.dart';
+import 'package:techigh_todo/features/main_navigation/views/tech_cupertino_tab_bar_view.dart';
+import 'package:techigh_todo/features/text_field/text_field_view.dart';
+import 'package:techigh_todo/features/widget_navigation/views/tech_indicator_type_view.dart';
+import 'package:techigh_todo/features/widget_navigation/views/tech_list_type_view.dart';
+import 'package:techigh_todo/features/widget_navigation/views/tech_swipe_type_list_view.dart';
+import 'package:techigh_todo/features/widget_navigation/views/tech_button_type_list_view.dart';
+import 'package:techigh_todo/features/widget_navigation/widgets/bottom_sheets/modal_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

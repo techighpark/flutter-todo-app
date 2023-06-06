@@ -1,5 +1,5 @@
-import 'package:dev_app_1/features/todo/constants/list_model_const.dart';
-import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
+import 'package:techigh_todo/features/todo/constants/list_model_const.dart';
+import 'package:techigh_todo/features/todo/views/new_list_modal_view.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListModel {

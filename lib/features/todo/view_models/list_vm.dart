@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:dev_app_1/features/todo/models/list_model.dart';
-import 'package:dev_app_1/features/todo/repos/list_repo.dart';
+import 'package:techigh_todo/features/todo/models/list_model.dart';
+import 'package:techigh_todo/features/todo/repos/list_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ListViewModel extends Notifier<List<ListModel>> {

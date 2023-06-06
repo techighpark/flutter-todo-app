@@ -1,4 +1,4 @@
-package com.techigh.dev_app_1
+package com.techigh.techigh_todo
 
 import io.flutter.embedding.android.FlutterActivity
 

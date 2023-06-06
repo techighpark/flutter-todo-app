@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:dev_app_1/constants/gaps.dart';
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/constants/tech_colors.dart';
-import 'package:dev_app_1/features/todo/view_models/list_vm.dart';
-import 'package:dev_app_1/features/todo/widgets/reminder_item_widget.dart';
+import 'package:techigh_todo/constants/gaps.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/constants/tech_colors.dart';
+import 'package:techigh_todo/features/todo/view_models/list_vm.dart';
+import 'package:techigh_todo/features/todo/widgets/reminder_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

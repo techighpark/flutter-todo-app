@@ -1,6 +1,6 @@
-import 'package:dev_app_1/constants/gaps.dart';
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/main_navigation/views/tech_material_navigation_view.dart';
+import 'package:techigh_todo/constants/gaps.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/features/main_navigation/views/tech_material_navigation_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

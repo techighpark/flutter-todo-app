@@ -1,5 +1,5 @@
-import 'package:dev_app_1/constants/gaps.dart';
-import 'package:dev_app_1/constants/sizes.dart';
+import 'package:techigh_todo/constants/gaps.dart';
+import 'package:techigh_todo/constants/sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

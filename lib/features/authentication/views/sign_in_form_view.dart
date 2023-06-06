@@ -1,10 +1,10 @@
-import 'package:dev_app_1/constants/gaps.dart';
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/authentication/views/sign_up_form_view.dart';
-import 'package:dev_app_1/common/widgets/form_button.dart';
-import 'package:dev_app_1/common/widgets/form_text_field.dart';
-import 'package:dev_app_1/features/onboarding/views/tech_single_child_scroll_view.dart';
-import 'package:dev_app_1/features/widget_navigation/tech_widget_list_navigation.dart';
+import 'package:techigh_todo/constants/gaps.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/features/authentication/views/sign_up_form_view.dart';
+import 'package:techigh_todo/common/widgets/form_button.dart';
+import 'package:techigh_todo/common/widgets/form_text_field.dart';
+import 'package:techigh_todo/features/onboarding/views/tech_single_child_scroll_view.dart';
+import 'package:techigh_todo/features/widget_navigation/tech_widget_list_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

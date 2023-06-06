@@ -1,4 +1,4 @@
-import 'package:dev_app_1/features/todo/constants/list_model_const.dart';
+import 'package:techigh_todo/features/todo/constants/list_model_const.dart';
 
 class ListItemModel {
   String title;

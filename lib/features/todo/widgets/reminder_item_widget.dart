@@ -1,6 +1,6 @@
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/constants/tech_colors.dart';
-import 'package:dev_app_1/features/todo/models/list_model.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/constants/tech_colors.dart';
+import 'package:techigh_todo/features/todo/models/list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

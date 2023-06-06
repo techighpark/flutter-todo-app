@@ -1,7 +1,7 @@
-import 'package:dev_app_1/common/widgets/avatar.dart';
-import 'package:dev_app_1/constants/gaps.dart';
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/scroll_view/widgets/tect_persistent_tab_bar.dart';
+import 'package:techigh_todo/common/widgets/avatar.dart';
+import 'package:techigh_todo/constants/gaps.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/features/scroll_view/widgets/tect_persistent_tab_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

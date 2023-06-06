@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:dev_app_1/constants/gaps.dart';
-import 'package:dev_app_1/constants/sizes.dart';
-import 'package:dev_app_1/features/todo/view_models/list_vm.dart';
-import 'package:dev_app_1/features/todo/views/list_items_view.dart';
-import 'package:dev_app_1/features/todo/views/new_list_modal_view.dart';
-import 'package:dev_app_1/features/todo/widgets/card_widget.dart';
-import 'package:dev_app_1/features/todo/widgets/list_item_widget.dart';
+import 'package:techigh_todo/constants/gaps.dart';
+import 'package:techigh_todo/constants/sizes.dart';
+import 'package:techigh_todo/features/todo/view_models/list_vm.dart';
+import 'package:techigh_todo/features/todo/views/list_items_view.dart';
+import 'package:techigh_todo/features/todo/views/new_list_modal_view.dart';
+import 'package:techigh_todo/features/todo/widgets/card_widget.dart';
+import 'package:techigh_todo/features/todo/widgets/list_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
