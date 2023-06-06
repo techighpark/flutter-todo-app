@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
-import 'package:techigh_todo/features/todo/view_models/fire_list_vm.dart';
+import 'package:techigh_todo/features/todo/models/list_model.dart';
+import 'package:techigh_todo/features/todo/view_models/fire_lists_vm.dart';
+import 'package:techigh_todo/features/todo/views/list_detail_view.dart';
 import 'package:techigh_todo/features/todo/views/new_list_modal_view.dart';
 import 'package:techigh_todo/features/todo/widgets/card_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,17 +34,17 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
     );
   }
 
-  void _onListTap(int index) {
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => ListItemsView(index),
-    //   ),
-    // );
+  void _onListTap(ListModel list) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ListDetailView(list),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final items = ref.watch(listProvider);
+    final items = ref.watch(listsProvider);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -104,37 +106,38 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
             ),
           ),
           SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size16,
-              ),
-              sliver: items.when(
-                data: (data) => SliverFixedExtentList(
-                  itemExtent: 60,
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: items.value!.length,
-                    (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () => _onListTap(index),
-                        child: ListItemWidget(
-                          bottomBorder: index == items.value!.length - 1,
-                          topBorder: index == 0,
-                          item: data[index],
-                        ),
-                      );
-                    },
-                  ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.size16,
+            ),
+            sliver: items.when(
+              data: (data) => SliverFixedExtentList(
+                itemExtent: 60,
+                delegate: SliverChildBuilderDelegate(
+                  childCount: items.value!.length,
+                  (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () => _onListTap(data[index]),
+                      child: ListItemWidget(
+                        bottomBorder: index == items.value!.length - 1,
+                        topBorder: index == 0,
+                        item: data[index],
+                      ),
+                    );
+                  },
                 ),
-                error: (error, stackTrace) {
-                  return SliverToBoxAdapter(
-                    child: Text('Error: $error'),
-                  );
-                },
-                loading: () {
-                  return const SliverToBoxAdapter(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              )),
+              ),
+              error: (error, stackTrace) {
+                return SliverToBoxAdapter(
+                  child: Text('Error: $error'),
+                );
+              },
+              loading: () {
+                return const SliverToBoxAdapter(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: ClipRRect(

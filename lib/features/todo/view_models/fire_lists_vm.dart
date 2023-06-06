@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
-import 'package:techigh_todo/features/todo/repos/fire_list_repo.dart';
+import 'package:techigh_todo/features/todo/repos/fire_lists_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FireListViewModel extends AsyncNotifier<List<ListModel>> {
+class FireListsViewModel extends AsyncNotifier<List<ListModel>> {
   late final FireListRepository _repository;
   List<ListModel> _list = [];
 
@@ -21,8 +21,8 @@ class FireListViewModel extends AsyncNotifier<List<ListModel>> {
     print('fire_list_vm : _fetchLists');
     final result = await _repository.fetchLists();
     final lists = result.docs.map(
-      (chat) => ListModel.fromJson(
-        json: chat.data(),
+      (list) => ListModel.fromJson(
+        json: list.data(),
       ),
     );
     return lists.toList();
@@ -38,5 +38,6 @@ class FireListViewModel extends AsyncNotifier<List<ListModel>> {
   }
 }
 
-final listProvider = AsyncNotifierProvider<FireListViewModel, List<ListModel>>(
-    () => FireListViewModel());
+final listsProvider =
+    AsyncNotifierProvider<FireListsViewModel, List<ListModel>>(
+        () => FireListsViewModel());

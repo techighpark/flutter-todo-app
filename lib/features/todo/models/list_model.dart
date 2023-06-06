@@ -17,22 +17,6 @@ class ListModel {
     required this.createdAt,
   });
 
-  // ListModel copyWith({
-  //   String? id,
-  //   String? title,
-  //   String? icon,
-  //   String? color,
-  //   int? createdAt,
-  // }) {
-  //   return ListModel(
-  //     id: id ?? this.id,
-  //     title: title ?? this.title,
-  //     icon: icon ?? this.icon,
-  //     color: color ?? this.color,
-  //     createdAt: createdAt ?? this.createdAt,
-  //   );
-  // }
-
   ListModel.fromJson({
     required Map<String, dynamic> json,
   })  : id = json[ListConstant.listFormKeys[ListType.id]!],

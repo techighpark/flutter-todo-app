@@ -1,18 +1,20 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:techigh_todo/constants/sizes.dart';
 import 'package:techigh_todo/constants/tech_colors.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:techigh_todo/features/todo/view_models/fire_reminders_vm.dart';
 
-class ReminderItemWidget extends StatefulWidget {
-  final ListModel item;
+class ReminderItemWidget extends ConsumerStatefulWidget {
+  final ListModel list;
   final int index;
   final bool isAdding;
   final Function onTap;
   final bool isFocused;
   const ReminderItemWidget({
     Key? key,
-    required this.item,
+    required this.list,
     required this.isAdding,
     required this.index,
     required this.onTap,
@@ -20,24 +22,45 @@ class ReminderItemWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ReminderItemWidget> createState() => _ReminderItemWidgetState();
+  ConsumerState<ReminderItemWidget> createState() => _ReminderItemWidgetState();
 }
 
-class _ReminderItemWidgetState extends State<ReminderItemWidget> {
+class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
   bool isChecked = false;
+  late TextEditingController _titleController;
+  late TextEditingController _noteController;
+
+  void _onTitleChanged(String value) {
+    ref
+        .read(remindersProvider(widget.list.id).notifier)
+        .addReminder(widget.list.id, value);
+  }
+
+  void _onNoteChanged() {}
 
   @override
   void initState() {
     super.initState();
+    _titleController = TextEditingController();
+    _noteController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _noteController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('reminder_item_widget - build');
+    print(widget.isFocused);
     return ListTile(
       onTap: () => widget.onTap(widget.index),
       visualDensity: VisualDensity.compact,
       minLeadingWidth: 0,
-      minVerticalPadding: 6,
+      minVerticalPadding: 0,
       leading: Container(
         width: 24,
         height: 24,
@@ -45,7 +68,7 @@ class _ReminderItemWidgetState extends State<ReminderItemWidget> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isChecked
-                ? TechColors.allColors[widget.item.color]!
+                ? TechColors.allColors[widget.list.color]!
                 : Colors.grey.shade700,
           ),
         ),
@@ -70,7 +93,7 @@ class _ReminderItemWidgetState extends State<ReminderItemWidget> {
               (states) {
                 // return Colors.transparent;
                 if (states.contains(MaterialState.selected)) {
-                  return Colors.red;
+                  return TechColors.allColors[widget.list.color];
                 } else {
                   return Colors.transparent;
                 }
@@ -100,9 +123,11 @@ class _ReminderItemWidgetState extends State<ReminderItemWidget> {
                 ),
         ),
         child: widget.isAdding
-            ? const CupertinoTextField(
+            ? CupertinoTextField(
+                controller: _titleController,
+                onChanged: _onTitleChanged,
                 autofocus: true,
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 0,
                 ),
                 decoration: BoxDecoration(),

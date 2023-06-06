@@ -5,7 +5,7 @@ import 'package:techigh_todo/constants/tech_colors.dart';
 import 'package:techigh_todo/constants/tech_icons.dart';
 import 'package:techigh_todo/features/todo/constants/list_model_const.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
-import 'package:techigh_todo/features/todo/view_models/fire_list_vm.dart';
+import 'package:techigh_todo/features/todo/view_models/fire_lists_vm.dart';
 import 'package:techigh_todo/features/todo/views/new_list_form_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class _NewListModalViewState extends ConsumerState<NewListModalView> {
       color: formData[ListConstant.listFormKeys[ListType.color]],
       createdAt: DateTime.now().millisecondsSinceEpoch,
     );
-    ref.read(listProvider.notifier).addList(listModel);
+    ref.read(listsProvider.notifier).addList(listModel);
     Navigator.of(context).pop();
   }
 
