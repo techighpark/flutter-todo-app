@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -30,9 +29,22 @@ void main() async {
       /// DeviceOrientation.landscapeRight,
     ],
   );
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
+  // bool alreadyInitialized = false;
+  // try {
+  //   FirebaseApp existingApp = Firebase.app();
+  //   alreadyInitialized = true;
+  //   print('Firebase app already initialized');
+  // } catch (e) {
+  //   print('Firebase app not yet initialized');
+  // }
+  //
+  // if (!alreadyInitialized) {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  //   print('Firebase initialized');
+  // }
 
   /// ThemeMode fix
   /// app 전체에서도 설정 가능하지만

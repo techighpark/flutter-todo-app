@@ -55,9 +55,11 @@ class _NewListModalViewState extends ConsumerState<NewListModalView> {
 
   void _onDoneTap() {
     ListModel listModel = ListModel(
+      id: '',
       title: formData[ListConstant.listFormKeys[ListType.title]],
       icon: formData[ListConstant.listFormKeys[ListType.icon]],
       color: formData[ListConstant.listFormKeys[ListType.color]],
+      createdAt: DateTime.now().millisecondsSinceEpoch,
     );
     ref.read(listProvider.notifier).addList(listModel);
     Navigator.of(context).pop();

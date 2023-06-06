@@ -103,35 +103,35 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
               ),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size16,
-            ),
-            sliver: SliverFixedExtentList(
-              itemExtent: 60,
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  final items = ref.watch(listProvider);
-                  return GestureDetector(
-                    onTap: () => _onListTap(index),
-                    child: ListItemWidget(
-                      index: index,
-                      bottomBorder: index == items.length - 1,
-                      item: items.elementAt(index),
-                    ),
-                  );
-                },
-                childCount: ref.watch(listProvider).length,
-              ),
-            ),
-          ),
+          // SliverPadding(
+          //   padding: const EdgeInsets.symmetric(
+          //     horizontal: Sizes.size16,
+          //   ),
+          //   sliver: SliverFixedExtentList(
+          //     itemExtent: 60,
+          //     delegate: SliverChildBuilderDelegate(
+          //       (BuildContext context, int index) {
+          //         final items = ref.watch(listProvider);
+          //         return GestureDetector(
+          //           onTap: () => _onListTap(index),
+          //           child: ListItemWidget(
+          //             index: index,
+          //             bottomBorder: index == items.length - 1,
+          //             item: items.elementAt(index),
+          //           ),
+          //         );
+          //       },
+          //       childCount: ref.watch(listProvider).length,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       bottomNavigationBar: ClipRRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
             ),
             height: 110,
