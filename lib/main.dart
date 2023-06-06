@@ -1,14 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:techigh_todo/constants/custom_color_schemes.g.dart';
 import 'package:techigh_todo/constants/text_theme.dart';
-import 'package:techigh_todo/features/authentication/views/sign_in_form_view.dart';
-import 'package:techigh_todo/features/todo/repos/list_repo.dart';
-import 'package:techigh_todo/features/todo/view_models/list_vm.dart';
+import 'package:techigh_todo/firebase_options.dart';
 import 'package:techigh_todo/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 void main() async {
   /// glue that binds the framework to the Flutter engine.
@@ -29,21 +29,9 @@ void main() async {
     ],
   );
 
-  // bool alreadyInitialized = false;
-  // try {
-  //   FirebaseApp existingApp = Firebase.app();
-  //   alreadyInitialized = true;
-  //   print('Firebase app already initialized');
-  // } catch (e) {
-  //   print('Firebase app not yet initialized');
-  // }
-  //
-  // if (!alreadyInitialized) {
-  //   await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform,
-  //   );
-  //   print('Firebase initialized');
-  // }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   /// ThemeMode fix
   /// app 전체에서도 설정 가능하지만
@@ -53,19 +41,16 @@ void main() async {
   );
 
   final preferences = await SharedPreferences.getInstance();
-
-  // await preferences.clear();
-  final repository = ListRepository(preferences);
   runApp(
-    ProviderScope(
-      overrides: [
-        listProvider.overrideWith(
-          () => ListViewModel(repository),
-        ),
-      ],
-      child: const MyApp(),
+    const ProviderScope(
+      child: MyApp(),
     ),
   );
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is stack_trace.Trace) return stack.vmTrace;
+    if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
+    return stack;
+  };
 }
 
 class MyApp extends ConsumerWidget {

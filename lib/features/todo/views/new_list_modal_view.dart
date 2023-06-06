@@ -5,7 +5,7 @@ import 'package:techigh_todo/constants/tech_colors.dart';
 import 'package:techigh_todo/constants/tech_icons.dart';
 import 'package:techigh_todo/features/todo/constants/list_model_const.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
-import 'package:techigh_todo/features/todo/view_models/list_vm.dart';
+import 'package:techigh_todo/features/todo/view_models/fire_list_vm.dart';
 import 'package:techigh_todo/features/todo/views/new_list_form_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -7,15 +7,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListItemWidget extends StatelessWidget {
-  final int index;
   final bool bottomBorder;
+  final bool topBorder;
   final ListModel item;
 
   const ListItemWidget({
     Key? key,
-    required this.index,
     required this.bottomBorder,
     required this.item,
+    required this.topBorder,
   }) : super(key: key);
 
   @override
@@ -23,8 +23,8 @@ class ListItemWidget extends StatelessWidget {
     return ListTile(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(index == 0 ? 16 : 0),
-          topRight: Radius.circular(index == 0 ? 16 : 0),
+          topLeft: Radius.circular(topBorder ? 16 : 0),
+          topRight: Radius.circular(topBorder ? 16 : 0),
           bottomLeft: Radius.circular(bottomBorder ? 16 : 0),
           bottomRight: Radius.circular(bottomBorder ? 16 : 0),
         ),
@@ -56,7 +56,7 @@ class ListItemWidget extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('$index'),
+          Text('1'),
           Gaps.h4,
         ],
       ),

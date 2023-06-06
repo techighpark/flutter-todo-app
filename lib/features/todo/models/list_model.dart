@@ -17,6 +17,22 @@ class ListModel {
     required this.createdAt,
   });
 
+  // ListModel copyWith({
+  //   String? id,
+  //   String? title,
+  //   String? icon,
+  //   String? color,
+  //   int? createdAt,
+  // }) {
+  //   return ListModel(
+  //     id: id ?? this.id,
+  //     title: title ?? this.title,
+  //     icon: icon ?? this.icon,
+  //     color: color ?? this.color,
+  //     createdAt: createdAt ?? this.createdAt,
+  //   );
+  // }
+
   ListModel.fromJson({
     required Map<String, dynamic> json,
   })  : id = json[ListConstant.listFormKeys[ListType.id]!],
@@ -25,9 +41,9 @@ class ListModel {
         icon = json[ListConstant.listFormKeys[ListType.icon]!],
         createdAt = json[ListConstant.listFormKeys[ListType.createdAt]!];
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson(String documentId) {
     return {
-      ListConstant.listFormKeys[ListType.id]!: id,
+      ListConstant.listFormKeys[ListType.id]!: documentId,
       ListConstant.listFormKeys[ListType.title]!: title,
       ListConstant.listFormKeys[ListType.color]!: color,
       ListConstant.listFormKeys[ListType.icon]!: icon,

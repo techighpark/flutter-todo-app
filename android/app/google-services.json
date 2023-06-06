@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "609137126443",
+    "project_id": "techigh-todo-dev",
+    "storage_bucket": "techigh-todo-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609137126443:android:03e2f37e87869fb0024e6e",
+        "android_client_info": {
+          "package_name": "com.techigh.dev_app_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609137126443-tbsda3ahk98ec51qedkcssf4veoan7tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvgkd4qH9UOhUcP2GFjyOnzaWc-p8Z_a4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609137126443-tbsda3ahk98ec51qedkcssf4veoan7tn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "609137126443-i321t6gfskja8k6amiuh5m2qr00jl3ij.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.techigh.devApp1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609137126443:android:282b9e7f904c058e024e6e",
+        "android_client_info": {
+          "package_name": "com.techigh.techigh_todo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609137126443-tbsda3ahk98ec51qedkcssf4veoan7tn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvgkd4qH9UOhUcP2GFjyOnzaWc-p8Z_a4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609137126443-tbsda3ahk98ec51qedkcssf4veoan7tn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "609137126443-i321t6gfskja8k6amiuh5m2qr00jl3ij.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.techigh.devApp1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
 import 'package:techigh_todo/constants/tech_colors.dart';
-import 'package:techigh_todo/features/todo/view_models/list_vm.dart';
+import 'package:techigh_todo/features/todo/view_models/fire_list_vm.dart';
 import 'package:techigh_todo/features/todo/widgets/reminder_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class _ListItemsViewState extends ConsumerState<ListItemsView> {
 
   @override
   Widget build(BuildContext context) {
-    final item = ref.read(listProvider.notifier).state[widget.index];
+    final item = ref.read(listProvider.notifier).state;
     return Scaffold(
       appBar: AppBar(
         leading: TextButton.icon(

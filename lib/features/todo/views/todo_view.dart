@@ -2,14 +2,13 @@ import 'dart:ui';
 
 import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
-import 'package:techigh_todo/features/todo/view_models/list_vm.dart';
-import 'package:techigh_todo/features/todo/views/list_items_view.dart';
+import 'package:techigh_todo/features/todo/view_models/fire_list_vm.dart';
 import 'package:techigh_todo/features/todo/views/new_list_modal_view.dart';
 import 'package:techigh_todo/features/todo/widgets/card_widget.dart';
-import 'package:techigh_todo/features/todo/widgets/list_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:techigh_todo/features/todo/widgets/list_item_widget.dart';
 
 class ToDoView extends ConsumerStatefulWidget {
   static String routeName = 'todo';
@@ -34,15 +33,16 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
   }
 
   void _onListTap(int index) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ListItemsView(index),
-      ),
-    );
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => ListItemsView(index),
+    //   ),
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
+    final items = ref.watch(listProvider);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -103,28 +103,38 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
               ),
             ),
           ),
-          // SliverPadding(
-          //   padding: const EdgeInsets.symmetric(
-          //     horizontal: Sizes.size16,
-          //   ),
-          //   sliver: SliverFixedExtentList(
-          //     itemExtent: 60,
-          //     delegate: SliverChildBuilderDelegate(
-          //       (BuildContext context, int index) {
-          //         final items = ref.watch(listProvider);
-          //         return GestureDetector(
-          //           onTap: () => _onListTap(index),
-          //           child: ListItemWidget(
-          //             index: index,
-          //             bottomBorder: index == items.length - 1,
-          //             item: items.elementAt(index),
-          //           ),
-          //         );
-          //       },
-          //       childCount: ref.watch(listProvider).length,
-          //     ),
-          //   ),
-          // ),
+          SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size16,
+              ),
+              sliver: items.when(
+                data: (data) => SliverFixedExtentList(
+                  itemExtent: 60,
+                  delegate: SliverChildBuilderDelegate(
+                    childCount: items.value!.length,
+                    (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () => _onListTap(index),
+                        child: ListItemWidget(
+                          bottomBorder: index == items.value!.length - 1,
+                          topBorder: index == 0,
+                          item: data[index],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                error: (error, stackTrace) {
+                  return SliverToBoxAdapter(
+                    child: Text('Error: $error'),
+                  );
+                },
+                loading: () {
+                  return const SliverToBoxAdapter(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              )),
         ],
       ),
       bottomNavigationBar: ClipRRect(
@@ -143,9 +153,9 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
               children: [
                 CupertinoButton(
                   padding: EdgeInsets.zero,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(CupertinoIcons.plus_circle_fill),
                       Gaps.h8,
                       Text('New Reminder'),
@@ -155,9 +165,9 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
                 ),
                 CupertinoButton(
                   padding: EdgeInsets.zero,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text('Add List'),
                     ],
                   ),
