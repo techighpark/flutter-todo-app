@@ -121,12 +121,7 @@ class _ReminderItemWidgetState extends State<ReminderItemWidget> {
                   ),
                 ),
               ),
-              child: Text(
-                'Add Note',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-              ),
+              child: Text('Add Note'),
             )
           : null,
     );
