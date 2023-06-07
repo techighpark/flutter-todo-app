@@ -21,20 +21,21 @@ class ListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            // topLeft: Radius.circular(topBorder ? 16 : 0),
-            // topRight: Radius.circular(topBorder ? 16 : 0),
-            // bottomLeft: Radius.circular(bottomBorder ? 16 : 0),
-            // bottomRight: Radius.circular(bottomBorder ? 16 : 0),
-            ),
-      ),
-      contentPadding: const EdgeInsets.only(
-        left: Sizes.size14,
-        right: Sizes.size10,
-        top: Sizes.size2,
-        bottom: Sizes.size2,
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.only(
+      //     topLeft: Radius.circular(topBorder ? 16 : 0),
+      //     topRight: Radius.circular(topBorder ? 16 : 0),
+      //     bottomLeft: Radius.circular(bottomBorder ? 16 : 0),
+      //     bottomRight: Radius.circular(bottomBorder ? 16 : 0),
+      //   ),
+      // ),
+      // contentPadding: const EdgeInsets.only(
+      //   left: Sizes.size20,
+      //   right: Sizes.size20,
+      //   top: Sizes.size20,
+      //   bottom: Sizes.size20,
+      // ),
+
       // visualDensity: VisualDensity.compact,
       // tileColor: Theme.of(context).colorScheme.onInverseSurface,
       minLeadingWidth: 30,

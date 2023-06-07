@@ -142,6 +142,27 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
           //     ),
           //   ),
           // ),
+          // items.when(
+          //   data: (data) => SliverFixedExtentList(
+          //     delegate: SliverChildBuilderDelegate(
+          //       childCount: 2,
+          //       (BuildContext context, int index) {
+          //         return Text('data');
+          //       },
+          //     ),
+          //     itemExtent: 50,
+          //   ),
+          //   error: (error, stackTrace) {
+          //     return SliverToBoxAdapter(
+          //       child: Text('Error: $error'),
+          //     );
+          //   },
+          //   loading: () {
+          //     return const SliverToBoxAdapter(
+          //       child: CircularProgressIndicator(),
+          //     );
+          //   },
+          // ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(
