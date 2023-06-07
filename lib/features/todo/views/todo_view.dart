@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
@@ -24,6 +26,7 @@ class ToDoView extends ConsumerStatefulWidget {
 
 class _ToDoViewState extends ConsumerState<ToDoView> {
   // final items = List<String>.generate(20, (index) => 'Item ${index + 1}');
+
   void _onFloatingButtonTap() {}
   Future<void> _onAddListTap(BuildContext context) async {
     await showModalBottomSheet(
@@ -105,37 +108,69 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
               ),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.size16,
-            ),
-            sliver: items.when(
-              data: (data) => SliverFixedExtentList(
-                itemExtent: 60,
-                delegate: SliverChildBuilderDelegate(
-                  childCount: items.value!.length,
-                  (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () => _onListTap(data[index]),
-                      child: ListItemWidget(
-                        bottomBorder: index == items.value!.length - 1,
-                        topBorder: index == 0,
-                        item: data[index],
-                      ),
-                    );
+          // SliverToBoxAdapter(
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(
+          //       vertical: Sizes.size10,
+          //       horizontal: Sizes.size16,
+          //     ),
+          //     child: Container(
+          //       clipBehavior: Clip.hardEdge,
+          //       decoration: BoxDecoration(
+          //         color: Theme.of(context).colorScheme.onInverseSurface,
+          //         borderRadius: BorderRadius.circular(16),
+          //       ),
+          //       child: items.when(
+          //         data: (data) => ListView.builder(
+          //           shrinkWrap: true,
+          //           itemCount: items.value?.length,
+          //
+          //           /// TODO : Slidable - closeOnScroll 안먹음
+          //           physics: const NeverScrollableScrollPhysics(),
+          //           itemBuilder: (BuildContext context, int index) {
+          //             return _buildGestureDetector(data, index, items);
+          //             // return Text('$data $index $items');
+          //           },
+          //         ),
+          //         error: (error, stackTrace) {
+          //           return Text('Error: $error');
+          //         },
+          //         loading: () {
+          //           return CircularProgressIndicator();
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size10,
+                horizontal: Sizes.size16,
+              ),
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: items.when(
+                  /// TODO : Slidable - closeOnScroll 해결
+                  data: (data) => Column(
+                    children: [
+                      for (var item in data)
+                        _buildGestureDetectorDev(data, item, items)
+                    ],
+                    // return Text('$data $index $items');
+                  ),
+                  error: (error, stackTrace) {
+                    return Text('Error: $error');
+                  },
+                  loading: () {
+                    return CircularProgressIndicator();
                   },
                 ),
               ),
-              error: (error, stackTrace) {
-                return SliverToBoxAdapter(
-                  child: Text('Error: $error'),
-                );
-              },
-              loading: () {
-                return const SliverToBoxAdapter(
-                  child: CircularProgressIndicator(),
-                );
-              },
             ),
           ),
         ],
@@ -179,6 +214,140 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  GestureDetector _buildGestureDetector(
+      List<ListModel> data, int index, AsyncValue<List<ListModel>> items) {
+    return GestureDetector(
+      onTap: () => _onListTap(data[index]),
+      child: Slidable(
+        /// Key vs ValueKey
+        ///
+        /// [Key]
+        /// Abstract class
+        /// Construct a ValueKey<String> with the given
+        /// subclasses : [UniqueKey], [ObjectKey], [GlobalKey], [LocalKey]
+        ///
+        /// [ValueKey]
+        /// Specific subclass of [Key] class
+        /// Creates a key that delegates its operator== to the given value.
+        key: ValueKey(data[index]),
+        groupTag: 'this is groupTag',
+
+        closeOnScroll: true,
+
+        /// dragStartBehavior: DragStartBehavior.down,
+        startActionPane: ActionPane(
+          extentRatio: 0.2,
+          motion: const BehindMotion(),
+          // dismissible: DismissiblePane(
+          //   onDismissed: () {
+          //     print('dismissable');
+          //   },
+          // ),
+          children: [
+            SlidableAction(
+              onPressed: (context) {
+                print(context);
+                print('startActionPane');
+              },
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.orangeAccent,
+              icon: CupertinoIcons.delete,
+            ),
+          ],
+        ),
+        endActionPane: ActionPane(
+          motion: const BehindMotion(),
+          dismissible: const Text('dismissible'),
+          children: [
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.orangeAccent,
+              icon: CupertinoIcons.delete,
+            ),
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.orangeAccent,
+              foregroundColor: Colors.blue,
+              icon: CupertinoIcons.delete_left,
+            )
+          ],
+        ),
+        child: ListItemWidget(
+          // bottomBorder: index == items.value!.length - 1,
+          // topBorder: index == 0,
+          item: data[index],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGestureDetectorDev(
+      List<ListModel> data, ListModel item, AsyncValue<List<ListModel>> items) {
+    return GestureDetector(
+      onTap: () => _onListTap(item),
+      child: Slidable(
+        /// Key vs ValueKey
+        ///
+        /// [Key]
+        /// Abstract class
+        /// Construct a ValueKey<String> with the given
+        /// subclasses : [UniqueKey], [ObjectKey], [GlobalKey], [LocalKey]
+        ///
+        /// [ValueKey]
+        /// Specific subclass of [Key] class
+        /// Creates a key that delegates its operator== to the given value.
+        key: ValueKey(item),
+        groupTag: 'this is groupTag',
+
+        closeOnScroll: true,
+
+        /// dragStartBehavior: DragStartBehavior.down,
+        startActionPane: ActionPane(
+          extentRatio: 0.2,
+          motion: const BehindMotion(),
+          // dismissible: DismissiblePane(
+          //   onDismissed: () {
+          //     print('dismissable');
+          //   },
+          // ),
+          children: [
+            SlidableAction(
+              onPressed: (context) {
+                print(context);
+                print('startActionPane');
+              },
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.orangeAccent,
+              icon: CupertinoIcons.delete,
+            ),
+          ],
+        ),
+        endActionPane: ActionPane(
+          motion: const BehindMotion(),
+          dismissible: const Text('dismissible'),
+          children: [
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.orangeAccent,
+              icon: CupertinoIcons.delete,
+            ),
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.orangeAccent,
+              foregroundColor: Colors.blue,
+              icon: CupertinoIcons.delete_left,
+            )
+          ],
+        ),
+        child: ListItemWidget(
+          item: item,
         ),
       ),
     );

@@ -7,15 +7,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListItemWidget extends StatelessWidget {
-  final bool bottomBorder;
-  final bool topBorder;
+  // final bool bottomBorder;
+  // final bool topBorder;
   final ListModel item;
 
   const ListItemWidget({
     Key? key,
-    required this.bottomBorder,
+    // required this.bottomBorder,
+    // required this.topBorder,
     required this.item,
-    required this.topBorder,
   }) : super(key: key);
 
   @override
@@ -23,11 +23,11 @@ class ListItemWidget extends StatelessWidget {
     return ListTile(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(topBorder ? 16 : 0),
-          topRight: Radius.circular(topBorder ? 16 : 0),
-          bottomLeft: Radius.circular(bottomBorder ? 16 : 0),
-          bottomRight: Radius.circular(bottomBorder ? 16 : 0),
-        ),
+            // topLeft: Radius.circular(topBorder ? 16 : 0),
+            // topRight: Radius.circular(topBorder ? 16 : 0),
+            // bottomLeft: Radius.circular(bottomBorder ? 16 : 0),
+            // bottomRight: Radius.circular(bottomBorder ? 16 : 0),
+            ),
       ),
       contentPadding: const EdgeInsets.only(
         left: Sizes.size14,
@@ -36,7 +36,7 @@ class ListItemWidget extends StatelessWidget {
         bottom: Sizes.size2,
       ),
       // visualDensity: VisualDensity.compact,
-      tileColor: Theme.of(context).colorScheme.onInverseSurface,
+      // tileColor: Theme.of(context).colorScheme.onInverseSurface,
       minLeadingWidth: 30,
       leading: Container(
         padding: const EdgeInsets.all(
