@@ -74,6 +74,12 @@ class _NewListModalViewState extends ConsumerState<NewListModalView> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final media = MediaQuery.of(context);
+    print('size :' '${media.size}');
+    print('padding :' '${media.padding}');
+    print('viewPadding :' '${media.viewPadding}');
+    print('viewInsets :' '${media.viewInsets}');
+
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(

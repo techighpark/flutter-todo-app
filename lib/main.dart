@@ -29,23 +29,28 @@ void main() async {
     ],
   );
 
+  /// ThemeMode fix
+  /// app 전체에서도 설정 가능하지만
+  /// page 마다 설정도 가능함
+  // SystemChrome.setSystemUIOverlayStyle(
+  //   SystemUiOverlayStyle.light,
+  // );
+  // WidgetsBinding.instance.addPostFrameCallback((_) {
+  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+  // });
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  /// ThemeMode fix
-  /// app 전체에서도 설정 가능하지만
-  /// page 마다 설정도 가능함
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle.dark,
-  );
-
   final preferences = await SharedPreferences.getInstance();
+
   runApp(
     const ProviderScope(
       child: MyApp(),
     ),
   );
+
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) return stack.vmTrace;
     if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
@@ -72,7 +77,6 @@ class MyApp extends ConsumerWidget {
     /// print(Orientation.portrait);
     /// print(Orientation.landscape);
     /// print(Orientation.values);
-
     return MaterialApp.router(
       title: 'First Dev App',
       debugShowCheckedModeBanner: false,
@@ -81,6 +85,7 @@ class MyApp extends ConsumerWidget {
       /// [themeMode]에서 설정된 mode에 따라 앱 실행됨
       /// [ThemeMode.light] -> ligth만 실행됨
       /// [ThemeMode.dart] -> dark만 실행됨
+      ///
       themeMode: ThemeMode.system,
       theme: ThemeData(
         useMaterial3: true,

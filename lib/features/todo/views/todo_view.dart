@@ -26,6 +26,26 @@ class ToDoView extends ConsumerStatefulWidget {
 
 class _ToDoViewState extends ConsumerState<ToDoView> {
   // final items = List<String>.generate(20, (index) => 'Item ${index + 1}');
+  late final ScrollController _scrollController;
+  double _appBarHeight = 200.0; // 초기 앱바 높이
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    setState(() {
+      if (_scrollController.offset > 50.0) {
+        // 스크롤이 100.0 이상 되면 앱바 높이를 100.0으로 변경
+        _appBarHeight = 50.0;
+      } else {
+        _appBarHeight = 70.0;
+      }
+    });
+  }
 
   void _onFloatingButtonTap() {}
   Future<void> _onAddListTap(BuildContext context) async {
@@ -46,6 +66,13 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
   }
 
   @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final items = ref.watch(listsProvider);
     return Scaffold(
@@ -60,8 +87,10 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
         ],
       ),
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
-          const SliverAppBar(
+          SliverAppBar(
+            expandedHeight: _appBarHeight,
             // floating: true,
             // flexibleSpace: SizedBox(
             //   width: double.infinity,
