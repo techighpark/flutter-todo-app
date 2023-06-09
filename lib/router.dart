@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider(
   (ref) => GoRouter(
-    initialLocation: '/todo',
+    initialLocation: '/widgetNav',
     routes: [
       GoRoute(
         path: ToDoView.routeUrl,

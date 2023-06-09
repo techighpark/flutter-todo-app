@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class TechListWheelView extends StatefulWidget {
@@ -18,25 +20,68 @@ class _TechListWheelViewState extends State<TechListWheelView> {
           CloseButton(),
         ],
       ),
-      body: ListWheelScrollView(
-        // useMagnifier: true,
-        // magnification: 3,
-
-        // diameterRatio: 5,
-
-        // offAxisFraction: 2,
-
-        itemExtent: 200,
+      body: Stack(
         children: [
-          for (var x in [1, 2, 3, 1, 2, 45, 6, 78, 4])
-            FractionallySizedBox(
-              widthFactor: 1,
-              child: Container(
-                alignment: Alignment.center,
-                color: Colors.pink,
-                child: Text('Pick me'),
+          const Positioned(
+            child: Center(
+              child: Text(
+                'WTF ?',
+                style: TextStyle(
+                  fontSize: 96,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
-            )
+            ),
+          ),
+          RotatedBox(
+            quarterTurns: 3,
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: ListWheelScrollView(
+                  // useMagnifier: true,
+                  // magnification: 1.5,
+                  diameterRatio: 2,
+                  offAxisFraction: 0.3,
+                  itemExtent: 200,
+                  // useMagnifier: true,
+                  // magnification: 1.5,
+                  children: [
+                    for (var x in [1, 2, 3, 1, 2, 45, 6, 78, 4])
+                      FractionallySizedBox(
+                        widthFactor: 0.7,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(50),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                Colors.white,
+                                Colors.white,
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.shade300,
+                                  offset: Offset(3.0, 3.0),
+                                  blurRadius: 3.0),
+                              BoxShadow(
+                                  color: Colors.white,
+                                  offset: Offset(-3.0, 3.0),
+                                  blurRadius: 3.0),
+                            ],
+                          ),
+                          child: Text('Pick me'),
+                        ),
+                      )
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
