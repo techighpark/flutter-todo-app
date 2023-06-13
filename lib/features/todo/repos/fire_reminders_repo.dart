@@ -21,6 +21,13 @@ class FireRemindersRepository {
         .collection('reminder')
         .add(reminder);
   }
+
+  Future<void> updateCompleteReminder(String reminderId, bool complete) async {
+    await _db
+        .collection('reminder')
+        .doc(reminderId)
+        .update({'completed': complete});
+  }
 }
 
 final fireRemindersRepo = Provider((ref) => FireRemindersRepository());

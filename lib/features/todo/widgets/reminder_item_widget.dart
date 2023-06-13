@@ -4,6 +4,7 @@ import 'package:techigh_todo/constants/tech_colors.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:techigh_todo/features/todo/models/reminder_model.dart';
 import 'package:techigh_todo/features/todo/view_models/fire_reminders_vm.dart';
 
 class ReminderItemWidget extends ConsumerStatefulWidget {
@@ -12,9 +13,11 @@ class ReminderItemWidget extends ConsumerStatefulWidget {
   final bool isAdding;
   final Function onTap;
   final bool isFocused;
+  final ReminderModel? reminder;
   const ReminderItemWidget({
     Key? key,
     required this.list,
+    this.reminder,
     required this.isAdding,
     required this.index,
     required this.onTap,
@@ -30,13 +33,11 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
   late TextEditingController _titleController;
   late TextEditingController _noteController;
 
-  void _onTitleChanged(String value) {
+  void _onTitleSubmitted(String value) {
     ref
         .read(remindersProvider(widget.list.id).notifier)
         .addReminder(widget.list.id, value);
   }
-
-  void _onNoteChanged() {}
 
   @override
   void initState() {
@@ -56,10 +57,10 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
   Widget build(BuildContext context) {
     print('reminder_item_widget - build');
     print(widget.isFocused);
+    print(widget.reminder);
     return ListTile(
       onTap: () => widget.onTap(widget.index),
       visualDensity: VisualDensity.compact,
-      minLeadingWidth: 0,
       minVerticalPadding: 0,
       leading: Container(
         width: 24,
@@ -125,14 +126,14 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
         child: widget.isAdding
             ? CupertinoTextField(
                 controller: _titleController,
-                onChanged: _onTitleChanged,
+                onSubmitted: (value) => _onTitleSubmitted(value),
                 autofocus: true,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 0,
                 ),
                 decoration: BoxDecoration(),
               )
-            : Text('New Reminder'),
+            : Text('${widget.reminder?.title}'),
       ),
       subtitle: widget.isFocused
           ? Container(

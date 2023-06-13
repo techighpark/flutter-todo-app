@@ -40,6 +40,13 @@ class FireRemindersViewModel
       return _fetchReminders(listId);
     });
   }
+
+  Future<void> updateCompleteReminder(String reminderId, bool complete) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      _repository.updateCompleteReminder(reminderId, complete);
+    });
+  }
 }
 
 final remindersProvider = AsyncNotifierProvider.family<FireRemindersViewModel,

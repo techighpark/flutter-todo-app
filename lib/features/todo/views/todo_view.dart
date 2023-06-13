@@ -65,6 +65,8 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
     );
   }
 
+  void _onDeleteSlideAction() {}
+
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
@@ -88,14 +90,9 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
       ),
       body: CustomScrollView(
         controller: _scrollController,
+        physics: AlwaysScrollableScrollPhysics(),
         slivers: [
           SliverAppBar(
-            expandedHeight: _appBarHeight,
-            // floating: true,
-            // flexibleSpace: SizedBox(
-            //   width: double.infinity,
-            //   child: CupertinoSearchTextField(),
-            // ),
             title: CupertinoSearchTextField(),
           ),
           SliverPadding(
@@ -283,7 +280,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
         ///
         /// [ValueKey]
         /// Specific subclass of [Key] class
-        /// Creates a key that delegates its operator== to the given value.
+        /// Creates a key that delegates its operator == to the given value.
         key: ValueKey(data[index]),
         groupTag: 'this is groupTag',
 
@@ -380,10 +377,10 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
         ),
         endActionPane: ActionPane(
           motion: const BehindMotion(),
-          dismissible: const Text('dismissible'),
+          // dismissible: const Text('dismissible'),
           children: [
             SlidableAction(
-              onPressed: (context) {},
+              onPressed: (context) => _onDeleteSlideAction(),
               backgroundColor: Colors.blue,
               foregroundColor: Colors.orangeAccent,
               icon: CupertinoIcons.delete,

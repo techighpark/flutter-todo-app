@@ -25,7 +25,7 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
   bool _isAdding = false;
   int? _focusedReminderIndex;
   int _addCount = 1;
-  List<String> itemList = List.generate(10, (index) => '$index');
+  // List<String> itemList = List.generate(10, (index) => '$index');
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
     _scrollController.addListener(_onScroll);
   }
 
-  void _onNewReminderTap(int index) {
+  void _onNewReminderButtonTap(int index) {
     _isAdding = true;
     print(index);
 
@@ -83,7 +83,9 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
   @override
   Widget build(BuildContext context) {
     print('list_detail_view - build');
+
     final reminders = ref.watch(remindersProvider(widget.list.id));
+    final isLoading = ref.watch(remindersProvider(widget.list.id)).isLoading;
 
     return Scaffold(
       appBar: AppBar(
@@ -126,6 +128,7 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
             children: [
               reminders.when(
                 data: (data) {
+                  print(data);
                   return ListView.builder(
                     itemCount: data.length + _addCount,
                     controller: _scrollController,
@@ -155,6 +158,7 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
                           isAdding: false,
                           index: index,
                           onTap: _onReminderTap,
+                          reminder: data[index],
                           isFocused: _focusedReminderIndex == index,
                         );
                       } else {
@@ -203,7 +207,8 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
             ),
             child: CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => _onNewReminderTap(reminders.value!.length + 1),
+              onPressed: () =>
+                  _onNewReminderButtonTap(reminders.value!.length + 1),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
