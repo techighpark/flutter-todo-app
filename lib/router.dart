@@ -17,7 +17,7 @@ import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider(
   (ref) => GoRouter(
-    initialLocation: '/tossCard',
+    initialLocation: '/todo',
     routes: [
       GoRoute(
         path: TechighMatrixView.routeUrl,

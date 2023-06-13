@@ -15,7 +15,7 @@ class TossCardView extends StatefulWidget {
 }
 
 class _TossCardViewState extends State<TossCardView>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   int cardQuantity = 1;
   late AnimationController _animationController;
   late AnimationController _buttonAnimationController;
@@ -25,14 +25,43 @@ class _TossCardViewState extends State<TossCardView>
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance.addObserver(this);
     _initCardAnimation();
     _initButtonAnimation();
     _initBounceAnimationController();
-
     // _animationController.addListener(() {
     //   _startAnimate;
     // });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.inactive:
+        // 앱이 비활성화 상태로 전환될 때 수행할 작업
+        // 예: 애니메이션 일시 중단, 리소스 해제 등
+        print('inactive');
+        break;
+      case AppLifecycleState.paused:
+        // 앱이 일시정지될 때 수행할 작업
+        // 예: 타이머 정지, 백그라운드 작업 일시 중단 등
+        print('paused');
+        break;
+      case AppLifecycleState.resumed:
+        // 앱이 다시 활성화될 때 수행할 작업
+        // 예: 타이머 재개, 상태 업데이트 등
+        print('resumed');
+
+        break;
+      case AppLifecycleState.detached:
+        // 앱이 완전히 종료될 때 수행할 작업
+        // (Android에서만 지원, iOS에서는 사용되지 않음)
+        print('detached');
+
+        break;
+    }
   }
 
   void _initCardAnimation() {
@@ -63,9 +92,7 @@ class _TossCardViewState extends State<TossCardView>
       lowerBound: 1.0,
       upperBound: 1.6,
       duration: _animateDuration,
-    )..addListener(() {
-        setState(() {});
-      });
+    );
   }
 
   void _onCardTap() {}
