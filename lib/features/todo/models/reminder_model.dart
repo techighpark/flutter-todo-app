@@ -2,28 +2,60 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:techigh_todo/features/todo/constants/list_model_const.dart';
 
 class ReminderModel {
+  String uid;
   String title;
   String? note;
-  bool? completed;
+  bool completed;
 
   ReminderModel({
     required this.title,
-    this.note,
-    this.completed,
+    required this.uid,
+    required this.note,
+    required this.completed,
   });
+
+  ReminderModel.createReminder({
+    required this.title,
+    String? uid,
+    String? note,
+  })  : uid = uid ?? 'none',
+        completed = false;
+
+  /// Named
+  // ReminderModel.named()
+  //     : uid = 'uid',
+  //       title = 'title',
+  //       note = 'note',
+  //       completed = false;
+
+  // ReminderModel.positional({
+  //   required this.uid,
+  //   required this.title,
+  //   required this.note,
+  //   required this.completed,
+  // });
+
+  // ReminderModel.redirect(String title)
+  //     : this(
+  //         uid: '',
+  //         title: title,
+  //         note: '',
+  //         completed: false,
+  //       );
 
   ReminderModel.fromJson({
     required Map<String, dynamic> json,
-  })  : title = json[ListConstant.listItemFormKeys[ListItemType.title]!],
-        note = json[ListConstant.listItemFormKeys[ListItemType.note]!],
-        completed =
-            json[ListConstant.listItemFormKeys[ListItemType.completed]!];
+  })  : uid = json['uid'],
+        title = json['title'],
+        note = json['note'],
+        completed = json['completed'];
 
   Map<String, dynamic> toJson() {
     return {
-      ListConstant.listItemFormKeys[ListItemType.title]!: title,
-      ListConstant.listItemFormKeys[ListItemType.note]!: note,
-      ListConstant.listItemFormKeys[ListItemType.completed]!: completed,
+      'uid': uid,
+      'title': title,
+      'note': note,
+      'completed': completed,
     };
   }
 
@@ -33,6 +65,7 @@ class ReminderModel {
   ) {
     final data = snapshot.data();
     return ReminderModel(
+      uid: data?['uid'],
       title: data?['title'],
       note: data?['note'],
       completed: data?['completed'],
@@ -41,9 +74,10 @@ class ReminderModel {
 
   Map<String, dynamic> toFireStore() {
     return {
+      "uid": uid,
       "title": title,
       "note": note,
-      "completed": false,
+      "completed": completed,
     };
   }
 }

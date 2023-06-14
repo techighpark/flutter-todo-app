@@ -30,8 +30,8 @@ class ReminderItemWidget extends ConsumerStatefulWidget {
 
 class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
   bool isChecked = false;
-  late TextEditingController _titleController;
-  late TextEditingController _noteController;
+  late TextEditingController _titleTextController;
+  late TextEditingController _noteTextController;
 
   void _onTitleSubmitted(String value) {
     ref
@@ -39,25 +39,33 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
         .addReminder(widget.list.id, value);
   }
 
+  void _onCompleteTap(bool value) {
+    if (widget.reminder != null) {
+      ref
+          .read(remindersProvider(widget.list.id).notifier)
+          .updateCompleteReminder(widget.reminder!.uid, value);
+    } else {
+      return;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController();
-    _noteController = TextEditingController();
+    _titleTextController = TextEditingController();
+    _noteTextController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _noteController.dispose();
+    _titleTextController.dispose();
+    _noteTextController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     print('reminder_item_widget - build');
-    print(widget.isFocused);
-    print(widget.reminder);
     return ListTile(
       onTap: () => widget.onTap(widget.index),
       visualDensity: VisualDensity.compact,
@@ -102,9 +110,9 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
             ),
             value: isChecked,
             onChanged: (bool? value) {
-              setState(() {
-                isChecked = value!;
-              });
+              if (value != null) {
+                _onCompleteTap(value);
+              }
             },
           ),
         ),
@@ -125,7 +133,7 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
         ),
         child: widget.isAdding
             ? CupertinoTextField(
-                controller: _titleController,
+                controller: _titleTextController,
                 onSubmitted: (value) => _onTitleSubmitted(value),
                 autofocus: true,
                 padding: const EdgeInsets.symmetric(

@@ -19,14 +19,20 @@ class FireRemindersRepository {
         .collection('list')
         .doc(listId)
         .collection('reminder')
-        .add(reminder);
+        .add(reminder)
+        .then((value) async => await _db
+            .collection('list')
+            .doc(listId)
+            .collection('reminder')
+            .doc(value.id)
+            .update({'uid': value.id}));
   }
 
-  Future<void> updateCompleteReminder(String reminderId, bool complete) async {
-    await _db
-        .collection('reminder')
-        .doc(reminderId)
-        .update({'completed': complete});
+  Future<void> updateCompleteReminder(
+      String reminderId, Map<String, dynamic> data) async {
+    print('fire_reminders_repo - updateCompleteReminder');
+
+    await _db.collection('reminder').doc(reminderId).update(data);
   }
 }
 

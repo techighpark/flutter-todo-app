@@ -31,21 +31,35 @@ class FireRemindersViewModel
     return list.toList();
   }
 
-  Future<void> addReminder(String listId, String value) async {
+  Future<void> addReminder(String listId, String title) async {
     print('fire_reminders_vm - addReminder');
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final reminder = ReminderModel(title: value).toJson();
+      final reminder = ReminderModel.createReminder(title: title).toJson();
       _repository.addReminder(listId, reminder);
       return _fetchReminders(listId);
     });
   }
 
   Future<void> updateCompleteReminder(String reminderId, bool complete) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      _repository.updateCompleteReminder(reminderId, complete);
-    });
+    /// TODO AsyncValue
+    state = AsyncValue.loading();
+    print(state.value);
+    print(state.requireValue);
+    print(state.valueOrNull);
+    print(state.stackTrace);
+    print(state.isLoading);
+
+    /// 비동기 데이터 - 새로 고침 중인지 여부
+    print(state.isRefreshing);
+
+    /// 비동기 데이터 - 다시 로드 중인지 여부
+    /// 일반적으로 자동으로 발생하는 주기적인 갱신 작업 등에 의해 사용
+    print(state.isReloading);
+
+    // state = await AsyncValue.guard(() async {
+    //   _repository.updateCompleteReminder(reminderId, complete);
+    // });
   }
 }
 

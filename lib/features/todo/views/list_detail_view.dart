@@ -20,7 +20,7 @@ class ListDetailView extends ConsumerStatefulWidget {
 }
 
 class _ListDetailViewState extends ConsumerState<ListDetailView> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool _showTitle = false;
   bool _isAdding = false;
   int? _focusedReminderIndex;
@@ -35,7 +35,6 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
 
   void _onNewReminderButtonTap(int index) {
     _isAdding = true;
-    print(index);
 
     _focusedReminderIndex = index;
     _addCount = 2;
@@ -43,9 +42,6 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
   }
 
   void _onReminderTap(int index) {
-    print(index);
-    print(_focusedReminderIndex);
-
     _focusedReminderIndex = index;
     _isAdding = false;
     _addCount = 1;
@@ -86,6 +82,10 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
 
     final reminders = ref.watch(remindersProvider(widget.list.id));
     final isLoading = ref.watch(remindersProvider(widget.list.id)).isLoading;
+
+    print(ref.watch(remindersProvider(widget.list.id)));
+    print(ref.watch(remindersProvider(widget.list.id).notifier));
+    print(ref.watch(remindersProvider(widget.list.id).notifier).state);
 
     return Scaffold(
       appBar: AppBar(
@@ -128,7 +128,6 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
             children: [
               reminders.when(
                 data: (data) {
-                  print(data);
                   return ListView.builder(
                     itemCount: data.length + _addCount,
                     controller: _scrollController,
