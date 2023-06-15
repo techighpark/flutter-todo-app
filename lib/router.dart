@@ -1,10 +1,9 @@
 import 'package:techigh_todo/features/authentication/views/sign_in_form_view.dart';
 import 'package:techigh_todo/features/authentication/views/sign_up_form_view.dart';
+import 'package:techigh_todo/features/dev_route/tech_route_main.dart';
+import 'package:techigh_todo/features/dev_route/tech_route_sub_first.dart';
+import 'package:techigh_todo/features/dev_route/tech_route_sub_second.dart';
 import 'package:techigh_todo/features/experiments/techigh_matrix.dart';
-import 'package:techigh_todo/features/experiments/techigh_matrix.dart';
-import 'package:techigh_todo/features/experiments/techigh_matrix.dart';
-import 'package:techigh_todo/features/experiments/toss_card_view.dart';
-import 'package:techigh_todo/features/experiments/toss_card_view.dart';
 import 'package:techigh_todo/features/experiments/toss_card_view.dart';
 import 'package:techigh_todo/features/main_navigation/views/tech_navigation_view.dart';
 import 'package:techigh_todo/features/main_navigation/views/tech_material_navigation_view.dart';
@@ -17,8 +16,23 @@ import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider(
   (ref) => GoRouter(
-    initialLocation: '/todo',
+    initialLocation: '/routemain',
     routes: [
+      GoRoute(
+        path: TechRouteMain.routeUrl,
+        name: TechRouteMain.routeName,
+        builder: (context, state) => const TechRouteMain(),
+      ),
+      GoRoute(
+        path: TechRouteSubFirst.routeUrl,
+        name: TechRouteSubFirst.routeName,
+        builder: (context, state) => const TechRouteSubFirst(),
+      ),
+      GoRoute(
+        path: TechRouteSubSecond.routeUrl,
+        name: TechRouteSubSecond.routeName,
+        builder: (context, state) => const TechRouteSubSecond(),
+      ),
       GoRoute(
         path: TechighMatrixView.routeUrl,
         name: TechighMatrixView.routeName,
