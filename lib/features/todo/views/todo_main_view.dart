@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
@@ -5,26 +7,26 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
-import 'package:techigh_todo/features/todo/view_models/fire_lists_vm.dart';
+import 'package:techigh_todo/features/todo/view_models/lists_vm.dart';
 import 'package:techigh_todo/features/todo/views/list_detail_view.dart';
-import 'package:techigh_todo/features/todo/views/new_list_modal_view.dart';
+import 'package:techigh_todo/features/todo/views/add_list_view.dart';
 import 'package:techigh_todo/features/todo/widgets/card_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:techigh_todo/features/todo/widgets/list_item_widget.dart';
+import 'package:techigh_todo/features/todo/widgets/list_item.dart';
 
-class ToDoView extends ConsumerStatefulWidget {
+class ToDoMainView extends ConsumerStatefulWidget {
   static String routeName = 'todo';
   static String routeUrl = '/todo';
 
-  const ToDoView({Key? key}) : super(key: key);
+  const ToDoMainView({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ToDoView> createState() => _ToDoViewState();
+  ConsumerState<ToDoMainView> createState() => _ToDoViewState();
 }
 
-class _ToDoViewState extends ConsumerState<ToDoView> {
+class _ToDoViewState extends ConsumerState<ToDoMainView> {
   // final items = List<String>.generate(20, (index) => 'Item ${index + 1}');
   late final ScrollController _scrollController;
   double _appBarHeight = 200.0; // 초기 앱바 높이
@@ -53,7 +55,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
       isScrollControlled: true,
       context: context,
       // builder: (context) => SegmentedControlExample()
-      builder: (context) => const NewListModalView(),
+      builder: (context) => const AddListView(),
     );
   }
 
@@ -65,7 +67,41 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
     );
   }
 
-  void _onDeleteSlideAction() {}
+  /// delete list using slide action
+  Future<void> _onDeleteSlideAction(ListModel item) async {
+    log('_onDeleteSlideAction', name: 'todo_main_view');
+    // final providerRead = ref.read(listsProvider);
+    // //AsyncData<List<ListModel>>(value: [Instance of 'ListModel', Instance of 'ListModel', Instance of 'ListModel'])
+    // final providerReadBackValue = ref.read(listsProvider).value;
+    // //[Instance of 'ListModel', Instance of 'ListModel', Instance of 'ListModel']
+    // final providerReadNotifierBackState =
+    //     ref.read(listsProvider.notifier).state;
+    // //AsyncData<List<ListModel>>(value: [Instance of 'ListModel', Instance of 'ListModel', Instance of 'ListModel'])
+    // final providerReadNotifier = ref.read(listsProvider.notifier);
+    // //Instance of 'ListsViewModel'
+    //
+    // final providerWatch = ref.watch(listsProvider);
+    // //AsyncData<List<ListModel>>(value: [Instance of 'ListModel', Instance of 'ListModel', Instance of 'ListModel'])
+    // final providerWatchBackValue = ref.watch(listsProvider).value;
+    // //[Instance of 'ListModel', Instance of 'ListModel', Instance of 'ListModel']
+    // final providerWatchNotifierBackState =
+    //     ref.watch(listsProvider.notifier).state;
+    // //AsyncData<List<ListModel>>(value: [Instance of 'ListModel', Instance of 'ListModel', Instance of 'ListModel'])
+    // final providerWatchNotifier = ref.watch(listsProvider.notifier);
+    // //Instance of 'ListsViewModel'
+    //
+    // print(providerRead);
+    // print(providerReadBackValue);
+    // print(providerReadNotifier);
+    // print(providerReadNotifierBackState);
+    // print(providerWatch);
+    // print(providerWatchBackValue);
+    // print(providerWatchNotifier);
+    // print(providerWatchNotifierBackState);
+
+    await ref.read(listsProvider.notifier).deleteList(item.id);
+    log('done');
+  }
 
   @override
   void dispose() {
@@ -92,7 +128,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
         controller: _scrollController,
         physics: AlwaysScrollableScrollPhysics(),
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             title: CupertinoSearchTextField(),
           ),
           SliverPadding(
@@ -202,11 +238,11 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: items.when(
-                  /// TODO : Slidable - closeOnScroll 해결
+                  /// Slidable - closeOnScroll 해결
                   data: (data) => Column(
                     children: [
                       for (var item in data)
-                        _buildGestureDetectorDev(data, item, items)
+                        _buildGestureDetectorDev(data, item)
                     ],
                     // return Text('$data $index $items');
                   ),
@@ -214,7 +250,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
                     return Text('Error: $error');
                   },
                   loading: () {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   },
                 ),
               ),
@@ -334,8 +370,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
     );
   }
 
-  Widget _buildGestureDetectorDev(
-      List<ListModel> data, ListModel item, AsyncValue<List<ListModel>> items) {
+  Widget _buildGestureDetectorDev(List<ListModel> data, ListModel item) {
     return GestureDetector(
       onTap: () => _onListTap(item),
       child: Slidable(
@@ -365,10 +400,7 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
           // ),
           children: [
             SlidableAction(
-              onPressed: (context) {
-                print(context);
-                print('startActionPane');
-              },
+              onPressed: (context) {},
               backgroundColor: Colors.blue,
               foregroundColor: Colors.orangeAccent,
               icon: CupertinoIcons.delete,
@@ -376,21 +408,22 @@ class _ToDoViewState extends ConsumerState<ToDoView> {
           ],
         ),
         endActionPane: ActionPane(
+          extentRatio: 0.4,
           motion: const BehindMotion(),
           // dismissible: const Text('dismissible'),
           children: [
             SlidableAction(
-              onPressed: (context) => _onDeleteSlideAction(),
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.orangeAccent,
-              icon: CupertinoIcons.delete,
+              onPressed: (context) {},
+              backgroundColor: Colors.grey.shade800,
+              foregroundColor: Colors.white,
+              icon: CupertinoIcons.info_circle_fill,
             ),
             SlidableAction(
-              onPressed: (context) {},
-              backgroundColor: Colors.orangeAccent,
-              foregroundColor: Colors.blue,
-              icon: CupertinoIcons.delete_left,
-            )
+              onPressed: (context) => _onDeleteSlideAction(item),
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              icon: CupertinoIcons.delete_solid,
+            ),
           ],
         ),
         child: ListItemWidget(

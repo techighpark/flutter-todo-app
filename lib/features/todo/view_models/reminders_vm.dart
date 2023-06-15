@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:techigh_todo/features/todo/models/reminder_model.dart';
 import 'package:techigh_todo/features/todo/repos/fire_reminders_repo.dart';
 
-class FireRemindersViewModel
+class RemindersViewModel
     extends FamilyAsyncNotifier<List<ReminderModel>, String> {
   late final FireRemindersRepository _repository;
   List<ReminderModel> _list = [];
@@ -44,11 +44,6 @@ class FireRemindersViewModel
   Future<void> updateCompleteReminder(String reminderId, bool complete) async {
     /// TODO AsyncValue
     state = AsyncValue.loading();
-    print(state.value);
-    print(state.requireValue);
-    print(state.valueOrNull);
-    print(state.stackTrace);
-    print(state.isLoading);
 
     /// 비동기 데이터 - 새로 고침 중인지 여부
     print(state.isRefreshing);
@@ -63,5 +58,5 @@ class FireRemindersViewModel
   }
 }
 
-final remindersProvider = AsyncNotifierProvider.family<FireRemindersViewModel,
-    List<ReminderModel>, String>(() => FireRemindersViewModel());
+final remindersProvider = AsyncNotifierProvider.family<RemindersViewModel,
+    List<ReminderModel>, String>(() => RemindersViewModel());

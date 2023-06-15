@@ -5,7 +5,7 @@ import 'package:techigh_todo/features/todo/models/list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:techigh_todo/features/todo/models/reminder_model.dart';
-import 'package:techigh_todo/features/todo/view_models/fire_reminders_vm.dart';
+import 'package:techigh_todo/features/todo/view_models/reminders_vm.dart';
 
 class ReminderItemWidget extends ConsumerStatefulWidget {
   final ListModel list;

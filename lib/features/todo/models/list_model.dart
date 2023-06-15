@@ -1,7 +1,3 @@
-import 'package:techigh_todo/features/todo/constants/list_model_const.dart';
-import 'package:techigh_todo/features/todo/views/new_list_modal_view.dart';
-import 'package:flutter/cupertino.dart';
-
 class ListModel {
   final String id;
   final String title;
@@ -19,19 +15,19 @@ class ListModel {
 
   ListModel.fromJson({
     required Map<String, dynamic> json,
-  })  : id = json[ListConstant.listFormKeys[ListType.id]!],
-        title = json[ListConstant.listFormKeys[ListType.title]!],
-        color = json[ListConstant.listFormKeys[ListType.color]!],
-        icon = json[ListConstant.listFormKeys[ListType.icon]!],
-        createdAt = json[ListConstant.listFormKeys[ListType.createdAt]!];
+  })  : id = json['id'],
+        title = json['title'],
+        color = json['color'],
+        icon = json['icon'],
+        createdAt = json['createdAt'];
 
-  Map<String, dynamic> toJson(String documentId) {
+  Map<String, dynamic> toJson() {
     return {
-      ListConstant.listFormKeys[ListType.id]!: documentId,
-      ListConstant.listFormKeys[ListType.title]!: title,
-      ListConstant.listFormKeys[ListType.color]!: color,
-      ListConstant.listFormKeys[ListType.icon]!: icon,
-      ListConstant.listFormKeys[ListType.createdAt]!: createdAt,
+      'id': id,
+      'title': title,
+      'color': color,
+      'icon': icon,
+      'createdAt': createdAt,
     };
   }
 }

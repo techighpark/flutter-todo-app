@@ -9,14 +9,14 @@ import 'package:techigh_todo/features/main_navigation/views/tech_navigation_view
 import 'package:techigh_todo/features/main_navigation/views/tech_material_navigation_view.dart';
 import 'package:techigh_todo/features/main_navigation/views/tech_cupertino_tab_bar_view.dart';
 import 'package:techigh_todo/features/onboarding/views/tech_single_child_scroll_view.dart';
-import 'package:techigh_todo/features/todo/views/todo_view.dart';
+import 'package:techigh_todo/features/todo/views/todo_main_view.dart';
 import 'package:techigh_todo/features/widget_navigation/tech_widget_list_navigation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 final routerProvider = Provider(
   (ref) => GoRouter(
-    initialLocation: '/routemain',
+    initialLocation: '/todo',
     routes: [
       GoRoute(
         path: TechRouteMain.routeUrl,
@@ -39,9 +39,9 @@ final routerProvider = Provider(
         builder: (context, state) => const TechighMatrixView(),
       ),
       GoRoute(
-        path: ToDoView.routeUrl,
-        name: ToDoView.routeName,
-        builder: (context, state) => const ToDoView(),
+        path: ToDoMainView.routeUrl,
+        name: ToDoMainView.routeName,
+        builder: (context, state) => const ToDoMainView(),
       ),
       GoRoute(
         path: TossCardView.routeUrl,

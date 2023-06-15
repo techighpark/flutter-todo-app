@@ -2,18 +2,17 @@ import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
 import 'package:techigh_todo/constants/tech_colors.dart';
 import 'package:techigh_todo/constants/tech_icons.dart';
-import 'package:techigh_todo/features/todo/constants/list_model_const.dart';
-import 'package:techigh_todo/features/todo/widgets/list_item_container_widget.dart';
+import 'package:techigh_todo/features/todo/widgets/list_item_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class NewListFormView extends StatefulWidget {
+class AddListForm extends StatefulWidget {
   final Map<String, dynamic> formData;
   final Function onTitleChanged;
   final Function onColorTap;
   final Function onIconTap;
 
-  const NewListFormView(
+  const AddListForm(
       {Key? key,
       required this.formData,
       required this.onTitleChanged,
@@ -22,10 +21,10 @@ class NewListFormView extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<NewListFormView> createState() => _NewListFormViewState();
+  State<AddListForm> createState() => _AddListFormState();
 }
 
-class _NewListFormViewState extends State<NewListFormView> {
+class _AddListFormState extends State<AddListForm> {
   final ScrollController _scrollController = ScrollController();
   late TextEditingController _textController;
 
@@ -64,12 +63,10 @@ class _NewListFormViewState extends State<NewListFormView> {
                     ),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: TechColors.allColors[widget.formData[
-                          ListConstant.listFormKeys[ListType.color]!]],
+                      color: TechColors.allColors[widget.formData['color']],
                     ),
                     child: Icon(
-                      TechIcons.allIcons[widget
-                          .formData[ListConstant.listFormKeys[ListType.icon]!]],
+                      TechIcons.allIcons[widget.formData['icon']],
                       size: Sizes.size56,
                     ),
                   ),
