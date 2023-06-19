@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
 import 'package:techigh_todo/constants/tech_colors.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
@@ -8,20 +9,20 @@ import 'package:techigh_todo/features/todo/models/reminder_model.dart';
 import 'package:techigh_todo/features/todo/view_models/reminders_vm.dart';
 
 class ReminderItemWidget extends ConsumerStatefulWidget {
-  final ListModel list;
   final int index;
-  final bool isAdding;
-  final Function onTap;
-  final bool isFocused;
+  final ListModel list;
   final ReminderModel? reminder;
+  final bool isAdding;
+  final bool isFocused;
+  final Function onTap;
   const ReminderItemWidget({
     Key? key,
+    required this.index,
     required this.list,
     this.reminder,
     required this.isAdding,
-    required this.index,
-    required this.onTap,
     required this.isFocused,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -33,6 +34,16 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
   late TextEditingController _titleTextController;
   late TextEditingController _noteTextController;
 
+  void _onTitleTap() {
+    if (widget.reminder != null) {
+      _titleTextController.text = widget.reminder!.title;
+    }
+  }
+
+  void _onTitleTapOutSide(PointerDownEvent event) {
+    print(event);
+  }
+
   void _onTitleSubmitted(String value) {
     ref
         .read(remindersProvider(widget.list.id).notifier)
@@ -43,7 +54,7 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
     if (widget.reminder != null) {
       ref
           .read(remindersProvider(widget.list.id).notifier)
-          .updateCompleteReminder(widget.reminder!.uid, value);
+          .updateCompleteReminder(widget.list.id, widget.reminder!.uid, value);
     } else {
       return;
     }
@@ -65,99 +76,160 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('reminder_item_widget - build');
-    return ListTile(
+    return GestureDetector(
       onTap: () => widget.onTap(widget.index),
-      visualDensity: VisualDensity.compact,
-      minVerticalPadding: 0,
-      leading: Container(
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isChecked
-                ? TechColors.allColors[widget.list.color]!
-                : Colors.grey.shade700,
-          ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
         ),
-        child: Transform.scale(
-          scale: 0.8,
-          child: Checkbox(
-            checkColor: Colors.transparent,
-            // activeColor: Colors.red,
-            // shape: const CircleBorder(),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              // side: BorderSide.none,
-            ),
-            side: BorderSide.none,
-            visualDensity: VisualDensity.compact,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-
-            /// fillColor가 activeColor보다 우선
-            /// 만약 fillColor가 지정되어 있다면, 체크박스의 배경 색상은 fillColor에 정의된 색상으로 설정
-            /// fillColor은 체크박스의 선택 여부와 관계없이 상태에 따라 다른 색상을 지정
-            fillColor: MaterialStateProperty.resolveWith(
-              (states) {
-                // return Colors.transparent;
-                if (states.contains(MaterialState.selected)) {
-                  return TechColors.allColors[widget.list.color];
-                } else {
-                  return Colors.transparent;
-                }
-              },
-            ),
-            value: isChecked,
-            onChanged: (bool? value) {
-              if (value != null) {
-                _onCompleteTap(value);
-              }
-            },
-          ),
-        ),
-      ),
-      title: Container(
-        padding: EdgeInsets.only(
-          top: Sizes.size10,
-          bottom: widget.isFocused ? 0 : Sizes.size10,
-        ),
-        decoration: BoxDecoration(
-          border: widget.isFocused
-              ? null
-              : Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).colorScheme.surfaceVariant,
-                  ),
-                ),
-        ),
-        child: widget.isAdding
-            ? CupertinoTextField(
-                controller: _titleTextController,
-                onSubmitted: (value) => _onTitleSubmitted(value),
-                autofocus: true,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 0,
-                ),
-                decoration: BoxDecoration(),
-              )
-            : Text('${widget.reminder?.title}'),
-      ),
-      subtitle: widget.isFocused
-          ? Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size10,
-              ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 24,
+              height: 24,
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).colorScheme.surfaceVariant,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: widget.reminder != null
+                      ? widget.reminder!.completed
+                          ? TechColors.allColors[widget.list.color]!
+                          : Colors.grey.shade700
+                      : Colors.grey.shade700,
+                ),
+              ),
+              child: Transform.scale(
+                scale: 0.8,
+                child: Checkbox(
+                  checkColor: Colors.transparent,
+                  // activeColor: Colors.red,
+                  // shape: const CircleBorder(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    // side: BorderSide.none,
+                  ),
+                  side: BorderSide.none,
+                  visualDensity: VisualDensity.compact,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+
+                  /// fillColor가 activeColor보다 우선
+                  /// 만약 fillColor가 지정되어 있다면, 체크박스의 배경 색상은 fillColor에 정의된 색상으로 설정
+                  /// fillColor은 체크박스의 선택 여부와 관계없이 상태에 따라 다른 색상을 지정
+                  fillColor: MaterialStateProperty.resolveWith(
+                    (states) {
+                      // return Colors.transparent;
+                      if (states.contains(MaterialState.selected)) {
+                        return TechColors.allColors[widget.list.color];
+                      } else {
+                        return Colors.transparent;
+                      }
+                    },
+                  ),
+                  value: widget.reminder != null
+                      ? widget.reminder!.completed
+                      : isChecked,
+                  onChanged: (bool? value) {
+                    if (value != null) {
+                      _onCompleteTap(value);
+                    }
+                  },
+                ),
+              ),
+            ),
+            Gaps.h20,
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(
+                  bottom: 10,
+                ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 1,
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                    ),
+                  ),
+                ),
+                child: GestureDetector(
+                  onTap: () => widget.onTap(
+                      index: widget.index, function: () => _onTitleTap()),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            widget.isAdding || widget.isFocused
+                                ? CupertinoTextField(
+                                    controller: _titleTextController,
+                                    onSubmitted: _onTitleSubmitted,
+                                    onTapOutside: _onTitleTapOutSide,
+                                    placeholder: 'New Reminder',
+                                    placeholderStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .outlineVariant,
+                                    ),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                    decoration: const BoxDecoration(),
+                                    suffix: const Icon(
+                                      CupertinoIcons.info,
+                                    ),
+                                  )
+                                : Text(
+                                    widget.reminder!.title,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                            if (widget.isAdding || widget.isFocused)
+                              CupertinoTextField(
+                                controller: _noteTextController,
+                                placeholder: 'Add Note',
+                                placeholderStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .outlineVariant,
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
+                                decoration: BoxDecoration(),
+                              ),
+                            if (!widget.isAdding &&
+                                widget.reminder!.note != null)
+                              Text(
+                                widget.reminder!.note ?? 'Add Note',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: widget.reminder!.note == null
+                                      ? Colors.red
+                                      : Colors.white,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              child: Text('Add Note'),
-            )
-          : null,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

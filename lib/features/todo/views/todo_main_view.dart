@@ -126,7 +126,7 @@ class _ToDoViewState extends ConsumerState<ToDoMainView> {
       ),
       body: CustomScrollView(
         controller: _scrollController,
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           const SliverAppBar(
             title: CupertinoSearchTextField(),

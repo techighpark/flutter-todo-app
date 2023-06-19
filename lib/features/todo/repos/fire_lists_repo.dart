@@ -14,6 +14,7 @@ class FireListRepository {
     return query.get();
   }
 
+  /// add new list
   Future<void> addList(Map<String, dynamic> list) async {
     log('addList', name: 'lists_repository');
     await _db
@@ -22,15 +23,24 @@ class FireListRepository {
         .set(list, SetOptions(merge: true));
   }
 
+  /// delete list
   Future<void> deleteList(String listId) async {
     log('deleteList', name: 'lists_repository');
 
+    /// find list
     DocumentReference listRef = _db.collection('list').doc(listId);
+
+    /// find reminders of list
     QuerySnapshot reminderSnapshot = await listRef.collection('reminder').get();
+
     List<QueryDocumentSnapshot> reminderDocs = reminderSnapshot.docs;
+
+    /// delete reminders of list
     for (QueryDocumentSnapshot reminder in reminderDocs) {
       await reminder.reference.delete();
     }
+
+    /// delete list
     await listRef.delete();
   }
 }

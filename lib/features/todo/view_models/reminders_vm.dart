@@ -41,20 +41,17 @@ class RemindersViewModel
     });
   }
 
-  Future<void> updateCompleteReminder(String reminderId, bool complete) async {
-    /// TODO AsyncValue
+  Future<void> updateCompleteReminder(
+      String listId, String reminderId, bool value) async {
     state = AsyncValue.loading();
 
-    /// 비동기 데이터 - 새로 고침 중인지 여부
-    print(state.isRefreshing);
-
-    /// 비동기 데이터 - 다시 로드 중인지 여부
     /// 일반적으로 자동으로 발생하는 주기적인 갱신 작업 등에 의해 사용
-    print(state.isReloading);
 
-    // state = await AsyncValue.guard(() async {
-    //   _repository.updateCompleteReminder(reminderId, complete);
-    // });
+    state = await AsyncValue.guard(() async {
+      await _repository
+          .updateCompleteReminder(listId, reminderId, {'completed': value});
+      return _fetchReminders(listId);
+    });
   }
 }
 
