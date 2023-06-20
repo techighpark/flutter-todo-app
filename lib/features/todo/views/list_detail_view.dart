@@ -24,19 +24,21 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
   bool _isAdding = false;
   int? _focusedReminderIndex;
 
+//-------------------------------------------------------------------------------------
   void _onNewReminderButtonTap(int index) {
     _isAdding = true;
     _focusedReminderIndex = index;
     setState(() {});
   }
 
-  void _onReminderTap(int index, void Function() function) {
+//------------------------------------------------------------------------------------
+  void _onReminderTap(int index) {
     _focusedReminderIndex = index;
     _isAdding = false;
-    function();
     setState(() {});
   }
 
+//-------------------------------------------------------------------------------------
   void _onBodyTap(int totalCount) {
     if (_isAdding) {
       _focusedReminderIndex = null;
@@ -50,6 +52,7 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
     setState(() {});
   }
 
+//-------------------------------------------------------------------------------------
   /// when scroll over 90 of offset, show title
   void _onScroll() {
     final showTitle = _scrollController.offset > 90;
@@ -60,12 +63,14 @@ class _ListDetailViewState extends ConsumerState<ListDetailView> {
     }
   }
 
+//-------------------------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
   }
 
+//-------------------------------------------------------------------------------------
   @override
   void dispose() {
     _scrollController.dispose();

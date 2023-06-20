@@ -9,14 +9,16 @@ class FireListRepository {
 
   /// fetch, pagination, infinite scroll [??]
   Future<QuerySnapshot<Map<String, dynamic>>> fetchLists() {
-    log('fetchLists', name: 'lists_repository');
+    log('fetchLists', name: ':::  EXECUTE  ::: Lists Repo');
+
     final query = _db.collection("list");
     return query.get();
   }
 
   /// add new list
   Future<void> addList(Map<String, dynamic> list) async {
-    log('addList', name: 'lists_repository');
+    log('addList', name: ':::  EXECUTE  ::: Lists Repo');
+
     await _db
         .collection('list')
         .doc(list['id'])
@@ -25,7 +27,7 @@ class FireListRepository {
 
   /// delete list
   Future<void> deleteList(String listId) async {
-    log('deleteList', name: 'lists_repository');
+    log('deleteList', name: ':::  EXECUTE  ::: Lists Repo');
 
     /// find list
     DocumentReference listRef = _db.collection('list').doc(listId);

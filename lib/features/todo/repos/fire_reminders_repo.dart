@@ -8,13 +8,14 @@ class FireRemindersRepository {
 
   /// fetch, pagination, infinite scroll
   Future<QuerySnapshot<Map<String, dynamic>>> fetchReminders(String listId) {
-    log('fetchReminders', name: 'RemindersRepository - Call');
+    log('fetchReminders', name: ':::  EXECUTE  ::: Reminders Repo');
+
     final query = _db.collection("list").doc(listId).collection('reminder');
     return query.get();
   }
 
   Future<void> addReminder(String listId, Map<String, dynamic> reminder) async {
-    log('addReminder', name: 'RemindersRepository - Call');
+    log('addReminder', name: ':::  EXECUTE  ::: Reminders Repo');
 
     await _db
         .collection('list')
@@ -31,7 +32,7 @@ class FireRemindersRepository {
 
   Future<void> updateCompleteReminder(
       String listId, String reminderId, Map<String, dynamic> data) async {
-    log('updateCompleteReminder', name: 'RemindersRepository - Call');
+    log('updateCompleteReminder', name: ':::  EXECUTE  ::: Reminders Repo');
 
     try {
       await _db
@@ -41,9 +42,10 @@ class FireRemindersRepository {
           .doc(reminderId)
           .update(data);
 
-      log('updateCompleteReminder', name: 'RemindersRepository - SUCCESS');
+      log('updateCompleteReminder', name: ':::  SUCCESS  ::: Reminders Repo');
     } catch (err) {
-      log(err.toString(), name: 'RemindersRepository - ERROR');
+      log('updateCompleteReminder- ${err.toString()}',
+          name: ':::  #ERROR  ::: Reminders Repo');
     }
   }
 }

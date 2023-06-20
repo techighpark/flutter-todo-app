@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:techigh_todo/constants/gaps.dart';
 import 'package:techigh_todo/constants/sizes.dart';
 import 'package:techigh_todo/constants/tech_colors.dart';
+import 'package:techigh_todo/features/todo/constants/Strings.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,22 +36,21 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
   late TextEditingController _titleTextController;
   late TextEditingController _noteTextController;
 
+//-------------------------------------------------------------------------------------
   void _onTitleTap() {
     if (widget.reminder != null) {
       _titleTextController.text = widget.reminder!.title;
     }
   }
 
-  void _onTitleTapOutSide(PointerDownEvent event) {
-    print(event);
-  }
-
+//-------------------------------------------------------------------------------------
   void _onTitleSubmitted(String value) {
     ref
         .read(remindersProvider(widget.list.id).notifier)
         .addReminder(widget.list.id, value);
   }
 
+//-------------------------------------------------------------------------------------
   void _onCompleteTap(bool value) {
     if (widget.reminder != null) {
       ref
@@ -60,6 +61,7 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
     }
   }
 
+  //-------------------------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
@@ -67,6 +69,7 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
     _noteTextController = TextEditingController();
   }
 
+//-------------------------------------------------------------------------------------
   @override
   void dispose() {
     _titleTextController.dispose();
@@ -152,8 +155,10 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
                   ),
                 ),
                 child: GestureDetector(
-                  onTap: () => widget.onTap(
-                      index: widget.index, function: () => _onTitleTap()),
+                  onTap: () {
+                    widget.onTap(widget.index);
+                    _onTitleTap();
+                  },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -165,7 +170,7 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
                                 ? CupertinoTextField(
                                     controller: _titleTextController,
                                     onSubmitted: _onTitleSubmitted,
-                                    onTapOutside: _onTitleTapOutSide,
+                                    //
                                     placeholder: 'New Reminder',
                                     placeholderStyle: TextStyle(
                                       fontSize: 16,
@@ -173,13 +178,18 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .outlineVariant,
+                                      fontFamily: Strings.fontFamily,
                                     ),
-                                    style: const TextStyle(
+                                    //
+                                    style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
+                                      fontFamily: Strings.fontFamily,
                                     ),
                                     decoration: const BoxDecoration(),
+                                    padding: EdgeInsets.zero,
+                                    //
                                     suffix: const Icon(
                                       CupertinoIcons.info,
                                     ),
@@ -187,25 +197,33 @@ class _ReminderItemWidgetState extends ConsumerState<ReminderItemWidget> {
                                 : Text(
                                     widget.reminder!.title,
                                     style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
                                       fontSize: 16,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                             if (widget.isAdding || widget.isFocused)
                               CupertinoTextField(
                                 controller: _noteTextController,
+                                //
                                 placeholder: 'Add Note',
                                 placeholderStyle: TextStyle(
                                   fontSize: 14,
                                   color: Theme.of(context)
                                       .colorScheme
                                       .outlineVariant,
+                                  fontFamily: Strings.fontFamily,
                                 ),
-                                style: const TextStyle(
+                                //
+                                style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.white,
+                                  fontFamily: Strings.fontFamily,
                                 ),
-                                decoration: BoxDecoration(),
+                                //
+                                decoration: const BoxDecoration(),
+                                padding: const EdgeInsets.only(
+                                  top: Sizes.size8,
+                                ),
                               ),
                             if (!widget.isAdding &&
                                 widget.reminder!.note != null)

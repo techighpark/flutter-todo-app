@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:techigh_todo/features/todo/models/reminder_model.dart';
@@ -11,16 +12,15 @@ class RemindersViewModel
 
   @override
   FutureOr<List<ReminderModel>> build(String listId) async {
-    print('fire_reminders_vm - build');
+    log('build', name: ':::  EXECUTE  ::: Reminders VM');
 
-    print(listId);
     _repository = ref.read(fireRemindersRepo);
     _list = await _fetchReminders(listId);
     return _list;
   }
 
   Future<List<ReminderModel>> _fetchReminders(String listId) async {
-    print('fire_reminders_vm - _fetchReminders');
+    log('_fetchReminders', name: ':::  EXECUTE  ::: Reminders VM');
 
     final result = await _repository.fetchReminders(listId);
     final list = result.docs.map(
@@ -32,7 +32,8 @@ class RemindersViewModel
   }
 
   Future<void> addReminder(String listId, String title) async {
-    print('fire_reminders_vm - addReminder');
+    log('addReminder', name: ':::  EXECUTE  ::: Reminders VM');
+
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final reminder = ReminderModel.createReminder(title: title).toJson();
@@ -43,15 +44,26 @@ class RemindersViewModel
 
   Future<void> updateCompleteReminder(
       String listId, String reminderId, bool value) async {
-    state = AsyncValue.loading();
+    log('updateCompleteReminder', name: ':::  EXECUTE  ::: Reminders VM');
 
-    /// 일반적으로 자동으로 발생하는 주기적인 갱신 작업 등에 의해 사용
+    final List<ReminderModel> currentState = state.value!;
 
-    state = await AsyncValue.guard(() async {
+    final index =
+        currentState.indexWhere((element) => element.uid == reminderId);
+
+    if (index != -1) {
+      final currentElement = currentState[index];
+      final updatedElement = {
+        'uid': reminderId,
+        'completed': value,
+        'note': currentElement.note,
+        'title': currentElement.title,
+      };
+      currentState[index] = ReminderModel.fromJson(json: updatedElement);
+      state = AsyncValue.data(currentState);
       await _repository
           .updateCompleteReminder(listId, reminderId, {'completed': value});
-      return _fetchReminders(listId);
-    });
+    }
   }
 }
 

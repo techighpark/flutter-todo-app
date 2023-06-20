@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:techigh_todo/features/todo/models/list_model.dart';
 import 'package:techigh_todo/features/todo/repos/fire_lists_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,14 +9,15 @@ class ListsViewModel extends AsyncNotifier<List<ListModel>> {
 
   @override
   FutureOr<List<ListModel>> build() async {
-    log('build', name: 'list_viewModel');
+    log('build', name: ':::  EXECUTE  ::: Lists VM');
+
     _listsRepository = ref.read(fireListsRepo);
     List<ListModel> list = await _fetchLists();
     return list;
   }
 
   Future<List<ListModel>> _fetchLists() async {
-    log('_fetchLists', name: 'list_viewModel');
+    log('_fetchLists', name: ':::  EXECUTE  ::: Lists VM');
 
     final result = await _listsRepository.fetchLists();
     final lists = result.docs.map(
@@ -32,7 +31,7 @@ class ListsViewModel extends AsyncNotifier<List<ListModel>> {
 
   /// create new list
   Future<void> addList(ListModel list) async {
-    log('addList', name: 'list_viewModel');
+    log('addList', name: ':::  EXECUTE  ::: Lists VM');
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
@@ -45,7 +44,7 @@ class ListsViewModel extends AsyncNotifier<List<ListModel>> {
 
   /// delete list
   Future<void> deleteList(String listId) async {
-    log('deleteList', name: 'list_viewModel');
+    log('deleteList', name: ':::  EXECUTE  ::: Lists VM');
 
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(

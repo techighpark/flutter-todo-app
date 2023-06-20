@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:techigh_todo/constants/custom_color_schemes.g.dart';
 import 'package:techigh_todo/constants/text_theme.dart';
 import 'package:techigh_todo/firebase_options.dart';
